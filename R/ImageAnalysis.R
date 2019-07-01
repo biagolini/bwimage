@@ -6,12 +6,12 @@
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' # Using aggregation_index to estimate vegetation agregation
 #' bush<-system.file("extdata/bush.JPG", package ="bwimage")
-#' bush_imagematrix<-threshold_color(bush, "jpeg", "proportional",compress_rate = 0.1)
+#' bush_imagematrix<-threshold_color(bush, "jpeg", "proportional", compress_rate = 0.1)
 #' aggregation_index(bush_imagematrix)
 #'
 #' # Using aggregation_index to estimate aggregation of nest wall holes
 #' nestwall<-system.file("extdata/bird_nestwall.png", package ="bwimage")
-#' nestwall_imagematrix<-threshold_color(nestwall, "png","width_fixed",target_width=300)
+#' nestwall_imagematrix<-threshold_color(nestwall, "png", "width_fixed", target_width=300)
 #' aggregation_index(nestwall_imagematrix)
 #' @export
 aggregation_index <-
@@ -593,12 +593,12 @@ light_gap <-
 #'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
-#'bush<-system.file("extdata/bush.JPG",package ="bwimage")
-#'bush_imagematrix<-threshold_color(bush,  "jpeg",  "proportional", compress_rate = 0.1)
+#' bush<-system.file("extdata/bush.JPG",package ="bwimage")
+#' bush_imagematrix<-threshold_color(bush,  "jpeg",  "proportional", compress_rate = 0.1)
 #'
-#'# Calculate height of the highest black pixel in the bush image matrix
-#'heigh_maximum(bush_imagematrix,height_size=100)
-#'# Conclusions: The highest vegetation unit ,i.e. highest black pixel, is 84.4 cm above ground.
+#' # Calculate height of the highest black pixel in the bush image matrix
+#' heigh_maximum(bush_imagematrix,height_size=100)
+#' # Conclusions: The highest vegetation unit ,i.e. highest black pixel, is 84.4 cm above ground.
 #' @references
 #' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
@@ -751,7 +751,7 @@ heigh_propotion_test <-
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
-#' bush_imagematrix<-threshold_color(bush,  "jpeg",  "proportional", compress_rate = 0.1)
+#' bush_imagematrix<-threshold_color(bush, "jpeg", "proportional", compress_rate = 0.1)
 #'
 #' # See the proportion of black pixels (1) below each bush image matrix row
 #' topline(bush_imagematrix,100,100)

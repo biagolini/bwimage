@@ -25,7 +25,7 @@ Description of the bush image example provided by bwimage package: The imagem co
 \examples{
 # First, get a matrix from your image. Here an example of a bush image is used.
 bush<-system.file("extdata/bush.JPG",package ="bwimage")
-bush_imagematrix<-threshold_color(bush,  "jpeg",  "proportional", compress_rate = 0.1)
+bush_imagematrix<-threshold_color(bush, "jpeg", "proportional", compress_rate = 0.1)
 
 # See the proportion of black pixels (1) below each bush image matrix row
 topline(bush_imagematrix,100,100)

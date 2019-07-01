@@ -19,11 +19,11 @@ The aggregation index is a standardized estimation of the average proportion of 
 # First, get a matrix from your image. Here an example of a bush image is used.
 # Using aggregation_index to estimate vegetation agregation
 bush<-system.file("extdata/bush.JPG", package ="bwimage")
-bush_imagematrix<-threshold_color(bush, "jpeg", "proportional",compress_rate = 0.1)
+bush_imagematrix<-threshold_color(bush, "jpeg", "proportional", compress_rate = 0.1)
 aggregation_index(bush_imagematrix)
 
 # Using aggregation_index to estimate aggregation of nest wall holes
 nestwall<-system.file("extdata/bird_nestwall.png", package ="bwimage")
-nestwall_imagematrix<-threshold_color(nestwall, "png","width_fixed",target_width=300)
+nestwall_imagematrix<-threshold_color(nestwall, "png", "width_fixed", target_width=300)
 aggregation_index(nestwall_imagematrix)
 }
