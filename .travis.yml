@@ -10,10 +10,8 @@ r:
   - release
 
 install:
-  - R CMD INSTALL .
-  - R -e 'remotes::install_deps(dependencies = TRUE)'
-  - R -e 'if (getRversion() >= "3.5.0") install.packages("jpeg")'
-  - R -e 'if (getRversion() >= "3.5.0") install.packages("png")'
+  - R -e 'install.packages("jpeg")'
+  - R -e 'install.packages("png")'
 
 after_success:
     - Rscript -e 'covr::codecov(type="all", token="3a9ab90d-cb26-410a-a299-b27679cbe140")'
