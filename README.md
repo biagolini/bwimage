@@ -4,9 +4,9 @@
 **License:** GPL (>= 2)
 
 <!-- badges: start -->
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ bwimage)](https://cran.r-project.org/package=bwimage)
-[![Downloads](https://cranlogs.r-pkg.org/badges/ bwimage)](https://CRAN.R-project.org/package= bwimage)
-[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/ bwimage?color=orange)](https://CRAN.R-project.org/package= bwimage)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bwimage)](https://cran.r-project.org/package=bwimage)
+[![Downloads](https://cranlogs.r-pkg.org/badges/bwimage)](https://CRAN.R-project.org/package= bwimage)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bwimage?color=orange)](https://CRAN.R-project.org/package= bwimage)
 <!-- badges: end -->
 
 > A computational tool to create sequences of animal color tags
