@@ -7,9 +7,9 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bwimage)](https://cran.r-project.org/package=bwimage)
 [![Downloads](https://cranlogs.r-pkg.org/badges/bwimage)](https://CRAN.R-project.org/package=bwimage)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bwimage?color=orange)](https://CRAN.R-project.org/package=bwimage)
-[![Travis build status](https://travis-ci.org/biagolini/bwimage/.svg?branch=master)](https://travis-ci.org/biagolini/bwimage/)
+[![Travis build status](https://travis-ci.org/biagolini/bwimage.svg?branch=master)](https://travis-ci.org/biagolini/bwimage)
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/biagolini/bwimage/?branch=master&svg=true)](https://ci.appveyor.com/project/biagolini/bwimage/)
-[![Codecov test coverage](https://codecov.io/gh/biagolini/bwimage//branch/master/graph/badge.svg)](https://codecov.io/gh/biagolini/bwimage/?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/biagolini/bwimage/branch/master/graph/badge.svg)](https://codecov.io/gh/biagolini/bwimage?branch=master)
 <!-- badges: end -->
 
 > A computational tool to create sequences of animal color tags
