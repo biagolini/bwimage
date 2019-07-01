@@ -11,4 +11,4 @@ r:
 
 
 after_success:
-    - Rscript -e 'covr::codecov(type="all", token="XXXXXXXXXXXXX")'
+    - Rscript -e 'covr::codecov(type="all", token="3a9ab90d-cb26-410a-a299-b27679cbe140")'
