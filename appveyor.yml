@@ -39,10 +39,7 @@ artifacts:
   - path: '*.Rcheck\**\*.out'
     name: Logs
 
-  - path: '*.Rcheck\**\*.fail'
-    name: Logs
-
-  - path: '*.Rcheck\**\*.Rout'
+ - path: '*.Rcheck\**\*.Rout'
     name: Logs
 
   - path: '\*_*.tar.gz'
