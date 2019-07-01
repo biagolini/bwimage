@@ -43,7 +43,7 @@ aggregation_index <- function(imagematrix) {
 #' canopy_imagematrix<-threshold_color(canopy, "jpeg", "proportional",compress_rate = 0.25)
 #'  # an example of a bird nestwall photo provided by bwimage package
 #' nestwall<-system.file("extdata/bird_nestwall.png",package ="bwimage")
-#' nestwall_imagematrix<-threshold_color(nestwall, "width_fixed", target_width=500)
+#' nestwall_imagematrix<-threshold_color(nestwall, filetype = "png", "width_fixed", target_width=500)
 #'
 
 #' @export
