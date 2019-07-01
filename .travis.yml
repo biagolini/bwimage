@@ -9,9 +9,6 @@ r:
   - oldrel
   - release
 
-install:
-  - Rscript -e 'install.packages("jpeg")'
-  - Rscript -e'install.packages("png")'
 
 after_success:
     - Rscript -e 'covr::codecov(type="all", token="3a9ab90d-cb26-410a-a299-b27679cbe140")'
