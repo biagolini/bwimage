@@ -15,11 +15,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(bwimage)
-```
-
-
 ## Introdution
 The facility to obtain high quality digital images creates the opportunity to measure natural variables using image analyses. Bwimage is an R package to analyze patterns in black and white images from natural structures. 
 ## Methods
@@ -82,11 +77,3 @@ image_information(nestwall_imagematrix)[2]/image_information(nestwall_imagematri
 #  Quantification of holes agregation
 aggregation_index(nestwall_imagematrix)
 ```
-Carlos Biagolini-Jr.  [@biagolini] c.biagolini@gmail.com
-
-## Contributing
- fork <https://github.com/biagolini/bwimage/fork>
- 
-##  Citation information
-An article of bwimage appliance to field data is under publication process. 
-Check out CRAN documentation at https://cran.r-project.org/package=bwimage

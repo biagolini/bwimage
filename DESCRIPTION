@@ -7,9 +7,9 @@ Author: Carlos Biagolini-Jr.
 Maintainer: Carlos Biagolini-Jr.<c.biagolini@gmail.com>
 Description: A computational tool to describe patterns in black and white images from natural structures. 'bwimage' implemented functions for exceptionally broad subject. For instance, 'bwimage' provide examples that range from calculation of canopy openness, description of patterns in vertical vegetation structure, to patterns in bird nest structure.   
 License: GPL (>= 2)
-NeedsCompilation: no
-Packaged: 2019-06-28 14:03:39 UTC; biago
-Repository: CRAN
+URL: https://github.com/biagolini/bwimage
+VignetteBuilder: knitr
+Encoding: UTF-8
 RoxygenNote: 6.1.1
 Imports:
     jpeg, 
@@ -21,4 +21,4 @@ Suggests:
     knitr,
     rmarkdown,
     covr
-VignetteBuilder: knitr
+
