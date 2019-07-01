@@ -1,3 +1,9 @@
+#' # Functions to be imported
+#' @importFrom utils txtProgressBar setTxtProgressBar
+#' @importFrom stats sd
+#' @importFrom jpeg readJPEG
+#' @importFrom png readPNG
+#'
 #' @title Aggregation index calculator
 #' @description The function aggregation_index calculate the aggregation index. It works for matrix with and without transparent pixel. The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixels (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one.
 #' @param imagematrix The matrix to be analysed.
@@ -44,8 +50,6 @@ aggregation_index <-
 #' @param transparency_regulation For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold) will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.
 #' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
 #' @author Carlos Biagolini-Jr.
-#' @importFrom jpeg readJPEG
-#' @importFrom png readPNG
 #' @examples
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
 #' threshold_color(bush,"jpeg", "frame_fixed",target_width = 15,target_height=15)
