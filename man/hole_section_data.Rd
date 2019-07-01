@@ -12,13 +12,14 @@ hole_section_data(section, color = 0)
 \item{color}{Color of the hole (0 or 1).}
 }
 \value{
-Number, mean, standard deviation, minimum and maximum size of hole sections.
+\item{N}{Number of hole sections}
+\item{Mean}{Mean size of hole sections}
+\item{SD}{Standard deviation of hole sections size}
+\item{Min}{Minimum size of hole sections}
+\item{Max}{Maximum size of hole sections}
 }
 \description{
-Summary information of holes of a given color in a given section.
-}
-\details{
-Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+Summary information of holes of a given color in a given section. Result unit is the number of cell.
 }
 \examples{
 # First, get a matrix from your image. Here an example of a bush image is used.
@@ -33,4 +34,10 @@ hole_section_data(bush_imagematrix[250,], color = 1)
 }
 \references{
 Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+}
+\seealso{
+hole_section threshold_color
+}
+\author{
+Carlos Biagolini-Jr.
 }

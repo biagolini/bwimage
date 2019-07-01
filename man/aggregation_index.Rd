@@ -10,10 +10,11 @@ aggregation_index(imagematrix)
 \item{imagematrix}{The matrix to be analysed.}
 }
 \value{
-The standardized aggregation index (adjusted_aggregation) and averaged SCNP (non_adjusted_aggregation). For further detail see description.
+\item{adjusted_aggregation}{Standardized aggregation.}
+\item{non_adjusted_aggregation}{Observed aggregation.}
 }
 \description{
-The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixel (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one. The function aggregation_index calculate the aggregation index . It works for matrix with and without transparent pixel.
+The function aggregation_index calculate the aggregation index. It works for matrix with and without transparent pixel. The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixels (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one.
 }
 \examples{
 # First, get a matrix from your image. Here an example of a bush image is used.
@@ -26,4 +27,10 @@ aggregation_index(bush_imagematrix)
 nestwall<-system.file("extdata/bird_nestwall.png", package ="bwimage")
 nestwall_imagematrix<-threshold_color(nestwall, "png", "width_fixed", target_width=300)
 aggregation_index(nestwall_imagematrix)
+}
+\seealso{
+threshold_color
+}
+\author{
+Carlos Biagolini-Jr.
 }

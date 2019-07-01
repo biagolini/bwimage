@@ -15,9 +15,6 @@ Description of start and end of each same color sequence
 \description{
 Description of when a sequence of  same color pixel start and end.
 }
-\details{
-Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
-}
 \examples{
 # First, get a matrix from your image. Here an example of a bush image is used.
 bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -31,4 +28,10 @@ hole_section(bush_imagematrix[250,])
 }
 \references{
 Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+}
+\seealso{
+hole_section_data threshold_color
+}
+\author{
+Carlos Biagolini-Jr.
 }

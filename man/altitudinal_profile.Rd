@@ -14,13 +14,12 @@ altitudinal_profile(imagematrix, n_sections, height_size)
 \item{height_size}{Real size of image height (in mm, cm, m, etc..).}
 }
 \value{
-Mean, standard deviations and size of the highest black pixel in each section. Results are present in the scale provide on height_size.
+\item{Mean}{Height mean of the highest black pixel in sections.}
+\item{SD}{Standard deviations of the highest black pixel in sections.}
+\item{Size}{Height of the highest black pixel in sections.}
 }
 \description{
-Break the original matrix in a number of section ( n_sections), then find the higher black pixel in each image sections.
-}
-\details{
-Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+Break the original matrix in a number of section ( n_sections), then find the higher black pixel in each image section.
 }
 \examples{
 # First, get a matrix from your image. Here an example of a bush image is used.
@@ -35,4 +34,10 @@ altitudinal_profile(bush_imagematrix,n_sections = 10, height_size=100)
 }
 \references{
 Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+}
+\seealso{
+threshold_color
+}
+\author{
+Carlos Biagolini-Jr.
 }

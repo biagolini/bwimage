@@ -2,7 +2,7 @@
 % Please edit documentation in R/ImageAnalysis.R
 \name{denseness_total}
 \alias{denseness_total}
-\title{Denseness total}
+\title{Denseness for whole image}
 \usage{
 denseness_total(imagematrix)
 }
@@ -15,9 +15,6 @@ Proportion of black pixels in relation to all pixels. It do not take into accoun
 \description{
 Proportion of black pixels in relation to all pixels. It do not take into account transparent pixels (when present).
 }
-\details{
-Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
-}
 \examples{
 # Get a matrix from your image. Here  examples provided by bwimage package.
 
@@ -29,6 +26,15 @@ denseness_total(bush_imagematrix)
 # II) Calculate canopy openness
 # Convert image into binary matrix
 canopy<-system.file("extdata/canopy.JPG",package ="bwimage")
-canopy_matrix<-threshold_color(canopy,compress_method="proportional",compress_rate=0.1)
+canopy_matrix<-threshold_color(canopy,"jpeg", compress_method="proportional",compress_rate=0.1)
 1-denseness_total(canopy_matrix) # canopy openness
+}
+\references{
+Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+}
+\seealso{
+threshold_color
+}
+\author{
+Carlos Biagolini-Jr.
 }

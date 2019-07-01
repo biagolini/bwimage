@@ -21,7 +21,8 @@ threshold_color(filename, filetype = "jpeg", compress_method = "none",
 
 \item{target_height}{Target height to be used if compress_method=frame_fixed or compress_method= height_fixed.}
 
-\item{black_regulation}{For each pixel, the intensity of red, green and blue is averaged and compared to a black_regulation (threshold). If the average intensity is less than the black_regulation (default is 0.5) the pixel will be set as black, otherwise it will be white.}
+\item{black_regulation}{For each pixel, the intensity of red, green and blue is averaged and compared to a black_regulation (threshold).
+If the average intensity is less than the black_regulation (default is 0.5) the pixel will be set as black, otherwise it will be white.}
 
 \item{transparency_regulation}{For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold) will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.}
 }
@@ -39,4 +40,7 @@ threshold_color(bush,"jpeg", "frame_fixed",target_width = 15,target_height=15)
 # threshold_color("FILE_NAME.EXTENSION", filetype ="FILE_EXTENSION")
 # or, if the file is in the other directory:
 # threshold_color("C:/PATH TO FILE FOLDER/YOUR_FILE_NAME.EXTENSION", "FILE_EXTENSION")
+}
+\author{
+Carlos Biagolini-Jr.
 }

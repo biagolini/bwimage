@@ -10,7 +10,7 @@ threshold_image_list(list_names, filetype = "jpeg",
   transparency_regulation = 0.5)
 }
 \arguments{
-\item{list_names}{An object contains the names of the files to be load. Ex: file_names<-c("Figure01.JPG","Figure02.JPG","Figure03.JPG","Figure04.JPG")}
+\item{list_names}{An object contains the names of the files.}
 
 \item{filetype}{Type of the file to be load. Compatible file types: ".JPGE", ".JPG" or ".PNG".}
 
@@ -39,4 +39,10 @@ canopy<-system.file("extdata/canopy.JPG",package ="bwimage")
 
 # Convert images to a list of matrices
 working_matrices<-threshold_image_list(c(bush,canopy), "jpeg", "proportional", compress_rate = 0.1)
+}
+\seealso{
+threshold_color
+}
+\author{
+Carlos Biagolini-Jr.
 }

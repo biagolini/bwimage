@@ -1,7 +1,11 @@
 #' @title Aggregation index calculator
-#' @description The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixel (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one. The function aggregation_index calculate the aggregation index . It works for matrix with and without transparent pixel.
+#' @description The function aggregation_index calculate the aggregation index. It works for matrix with and without transparent pixel. The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixels (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one.
 #' @param imagematrix The matrix to be analysed.
-#' @return The standardized aggregation index (adjusted_aggregation) and averaged SCNP (non_adjusted_aggregation). For further detail see description.
+#' @return
+#' \item{adjusted_aggregation}{Standardized aggregation.}
+#' \item{non_adjusted_aggregation}{Observed aggregation.}
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' # Using aggregation_index to estimate vegetation agregation
@@ -25,6 +29,7 @@ aggregation_index <-
     resposta <- c(adjusted_aggregation, non_adjusted_aggregation)
     names(resposta) <- c("adjusted_aggregation", "non_adjusted_aggregation")
     return(resposta)}
+
 #' @title Image to matrix - Single
 #'
 #' @description Convert a single image into a matrix
@@ -34,9 +39,11 @@ aggregation_index <-
 #' @param compress_rate Compress rate to by apply if compress_method=proportional. Note:  it should be ser as number range from 0 to 1 .
 #' @param target_width Target width to be used if compress_method=frame_fixed or compress_method= width_fixed.
 #' @param target_height Target height to be used if compress_method=frame_fixed or compress_method= height_fixed.
-#' @param black_regulation For each pixel, the intensity of red, green and blue is averaged and compared to a black_regulation (threshold). If the average intensity is less than the black_regulation (default is 0.5) the pixel will be set as black, otherwise it will be white.
+#' @param black_regulation For each pixel, the intensity of red, green and blue is averaged and compared to a black_regulation (threshold).
+#' If the average intensity is less than the black_regulation (default is 0.5) the pixel will be set as black, otherwise it will be white.
 #' @param transparency_regulation For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold) will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.
 #' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
+#' @author Carlos Biagolini-Jr.
 #' @examples
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
 #' threshold_color(bush,"jpeg", "frame_fixed",target_width = 15,target_height=15)
@@ -134,7 +141,7 @@ threshold_color <-
 #' @title Image to matrix - List
 #'
 #' @description Convert two or more images into a list of matrices
-#' @param list_names An object contains the names of the files to be load. Ex: file_names<-c("Figure01.JPG","Figure02.JPG","Figure03.JPG","Figure04.JPG")
+#' @param list_names An object contains the names of the files.
 #' @param filetype Type of the file to be load. Compatible file types: ".JPGE", ".JPG" or ".PNG".
 #' @param compress_method For high resolution files, i.e. numbers of pixels in width and height, it is suggested to reduce the resolution to create a smaller matrix, it strongly reduce GPU usage and time necessary to run analyses. On the other hand, by reducing resolution, it will also reduce the accuracy of data description. Methods for image compression: (i) frame_fixed: compress images to a desired target width and height; (ii) proportional:  compress the image by a given ratio provide in the argument "proportion"; (iii) width_fixed: compress images to get a target width. The image height will also be reduced, in the same intensity. For instance, if the original file had 1000 pixel in width, and width_fixed was set to 100, the height reduction will reduce in a rate of 0.1 (100/1000) ; (iv) height_fixed: analogous to width_fixed, but assumes height as reference.
 #' @param compress_rate Compress rate to by apply if compress_method=proportional. Note:  it should be ser as number range from 0 to 1 .
@@ -143,6 +150,8 @@ threshold_color <-
 #' @param black_regulation For each pixel, the intensity of red, green and blue is averaged and compared to a black_regulation (threshold). If the average intensity is less than the black_regulation (default is 0.5) the pixel will be set as black, otherwise it will be white.
 #' @param transparency_regulation For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold) will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.
 #' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # Image examples provided by bwimage package
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -170,9 +179,15 @@ threshold_image_list <-
 #'
 #' @description Provide the information of: number of black, white and transparent pixels, total number of pixels, height and width size.
 #' @param imagematrix The matrix to be analysed.
-#' @return Basic informations of matrix
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return
+#' \item{Black}{Number of black pixels}
+#' \item{White}{Number of white pixels}
+#' \item{Transparent}{Number of transparent pixels}
+#' \item{Total}{Total number of pixels}
+#' \item{Height}{Size in height}
+#' \item{Width}{Size in width}
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -191,7 +206,6 @@ image_information <-
     n_transparent <- (linhas_imagem * colunas_imagem) - n_pixels
     width_BW_picture <- nrow(imagematrix)
     height_BW_picture <- ncol(imagematrix)
-
     resultado_em_processo[1] <- n_black_pixels
     resultado_em_processo[2] <- n_white_pixels
     resultado_em_processo[3] <- n_transparent
@@ -201,13 +215,15 @@ image_information <-
 
     names(resultado_em_processo) <- c("Black", "White", "Transparent", "Total","Height", "Width")
     return(resultado_em_processo)}
-#' @title Denseness total
+#' @title Denseness for whole image
 #'
 #' @description Proportion of black pixels in relation to all pixels. It do not take into account transparent pixels (when present).
 #' @param imagematrix The matrix to be analysed.
 #' @return Proportion of black pixels in relation to all pixels. It do not take into account transparent pixels (when present).
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # Get a matrix from your image. Here  examples provided by bwimage package.
 #'
@@ -219,7 +235,7 @@ image_information <-
 #' # II) Calculate canopy openness
 #' # Convert image into binary matrix
 #' canopy<-system.file("extdata/canopy.JPG",package ="bwimage")
-#' canopy_matrix<-threshold_color(canopy,compress_method="proportional",compress_rate=0.1)
+#' canopy_matrix<-threshold_color(canopy,"jpeg", compress_method="proportional",compress_rate=0.1)
 #' 1-denseness_total(canopy_matrix) # canopy openness
 #' @export
 denseness_total <-
@@ -229,14 +245,19 @@ denseness_total <-
     n_pixels <- length(dados_pixeis)
     p_black_pixels <- n_black_pixels/n_pixels
     return(p_black_pixels)}
-#' @title Denseness by row
+#' @title Denseness in row sections
 #'
-#' @description Calculate the denseness (proportion of black pixel in relation to the total number of pixels) for a given number of sections (n_sections). n_sections should be set as a number, in this situation denseness_row will break the original matrix in slices, and apply denseness_total () function for each section. For instance, in a matrix of 1000x1000 if n_sections = 10, it will break to 10 sections of 100x1000 and analyze it. In other words, the sections will be the following sections of the original matrix [1:100, 1:1000] , [101:200, 1:1000] , [201:300, 1:1000] ,  [301:400, 1:1000] , [401:500, 1:1000] , [501:600, 1:1000] , [601:700, 1:1000] , [701:800, 1:1000] , [801:900, 1:1000] , [901:1000, 1:1000] .The default for parameter n_sections is "all", it will calculate denseness for each row of pixel. In other words, it will break the image in a number of section equal to the image pixel height.
+#' @description Calculate the denseness (proportion of black pixel in relation to the total number of pixels) for a given number of sections (n_sections). n_sections should be set as a number, in this situation denseness_row will break the original matrix in slices, and apply denseness_total function for each section. For instance, in a matrix of 1000x1000 if n_sections = 10, it will break to 10 sections of 100x1000 and analyze it. In other words, the sections will be the following sections of the original matrix [1:100, 1:1000] , [101:200, 1:1000] , [201:300, 1:1000] ,  [301:400, 1:1000] , [401:500, 1:1000] , [501:600, 1:1000] , [601:700, 1:1000] , [701:800, 1:1000] , [801:900, 1:1000] , [901:1000, 1:1000] .The default for parameter n_sections is "all", it will calculate denseness for each row of pixel. In other words, it will break the image in a number of section equal to the image pixel height.
 #' @param imagematrix The matrix to be analysed.
 #' @param n_sections Break the image in this number of rows.
-#' @return denseness, mean and standard deviations
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return
+#' \item{Denseness}{Denseness of each row section.}
+#' \item{Mean}{Mean of row sections denseness.}
+#' \item{SD}{standard deviations of row sections denseness.}
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso denseness_total threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -244,8 +265,6 @@ denseness_total <-
 #'
 #' # Calculate vegetation denseness in 20 row sections
 #' denseness_row(bush_imagematrix, n_sections = 20)
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 denseness_row <-
   function(imagematrix, n_sections = "all") {
@@ -268,14 +287,19 @@ denseness_row <-
     names(resposta) <-c("Denseness", "Mean", "SD")
     return(resposta)}
 
-#' @title Denseness by column
+#' @title Denseness in column sections
 #'
-#' @description Calculate the denseness (proportion of black pixel in relation to the total number of pixels) for a given number of sections (n_sections). n_sections should be set as a number, in this situation denseness_column will break the original matrix in slices, and apply denseness_total () function for each section. For instance, in a matrix of 1000x1000 if n_sections = 10, it will break to 10 sections of 1000x100 and analyze it. In other words, the sections will be the following sections of the original matrix [1:1000, 1:100] ,[ 1:1000,101:200] ,[ 1:1000,201:300] ,[ 1:1000,301:400] ,[ 1:1000,401:500] ,[ 1:1000,501:600] ,[ 1:1000,601:700] ,[ 1:1000,701:800] ,[ 1:1000,801:900] ,[ 1:1000,901:1000]. The default for parameter n_sections is "all", it will calculate denseness for each column of pixel. In other words, it will break the image in a number of section equal to the image pixel width.
+#' @description Calculate the denseness (proportion of black pixel in relation to the total number of pixels) for a given number of sections (n_sections). n_sections should be set as a number, in this situation denseness_column will break the original matrix in slices, and apply denseness_total function for each section. For instance, in a matrix of 1000x1000 if n_sections = 10, it will break to 10 sections of 1000x100 and analyze it. In other words, the sections will be the following sections of the original matrix [1:1000, 1:100] ,[ 1:1000,101:200] ,[ 1:1000,201:300] ,[ 1:1000,301:400] ,[ 1:1000,401:500] ,[ 1:1000,501:600] ,[ 1:1000,601:700] ,[ 1:1000,701:800] ,[ 1:1000,801:900] ,[ 1:1000,901:1000]. The default for parameter n_sections is "all", it will calculate denseness for each column of pixel. In other words, it will break the image in a number of section equal to the image pixel width.
 #' @param imagematrix The matrix to be analysed.
 #' @param n_sections Break the image in this number of columns.
-#' @return denseness, mean and standard deviations
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return
+#' \item{Denseness}{Denseness of each column section.}
+#' \item{Mean}{Mean of column sections denseness.}
+#' \item{SD}{standard deviations of column sections denseness.}
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso denseness_total threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -283,8 +307,6 @@ denseness_row <-
 #'
 #' # Calculate vegetation denseness in 20 column sections
 #' denseness_column(bush_imagematrix,20)
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 denseness_column <-
   function(imagematrix, n_sections = "all") {
@@ -312,8 +334,10 @@ denseness_column <-
 #' @description Description of when a sequence of  same color pixel start and end.
 #' @param section Section to be analysed.
 #' @return Description of start and end of each same color sequence
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso hole_section_data threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -324,8 +348,6 @@ denseness_column <-
 #'
 #' # Find pixel hole sections in the row 250 of bush image
 #' hole_section(bush_imagematrix[250,])
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 hole_section <-
   function(section) {
@@ -372,12 +394,19 @@ hole_section <-
   }
 #' @title Summary of holes information
 #'
-#' @description Summary information of holes of a given color in a given section.
+#' @description Summary information of holes of a given color in a given section. Result unit is the number of cell.
 #' @param section Section to be analysed.
 #' @param color Color of the hole (0 or 1).
-#' @return Number, mean, standard deviation, minimum and maximum size of hole sections.
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return
+#' \item{N}{Number of hole sections}
+#' \item{Mean}{Mean size of hole sections}
+#' \item{SD}{Standard deviation of hole sections size}
+#' \item{Min}{Minimum size of hole sections}
+#' \item{Max}{Maximum size of hole sections}
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso hole_section threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -388,9 +417,6 @@ hole_section <-
 #'
 #' # Detail information of black (1) holes sections in the row 250 of bush image
 #' hole_section_data(bush_imagematrix[250,], color = 1)
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
-
 #' @export
 hole_section_data <-
   function(section, color = 0) {
@@ -413,15 +439,23 @@ hole_section_data <-
     names(resposta) <- c("N", "Mean", "SD", "Min","Max")
     return(resposta)
   }
-#' @title Holes - columns
+#' @title Holes description in columns sections
 #'
-#' @description Summary information of holes in a given number of columns (n_sections). n_sections must be set as a number, in this situation hole_columm will sample columns, and apply hole_section_data() function for each section. Next, all results will be display on hole_columm output. Example of how column sample works: in a matrix of 250x250 if n_sections =  5 , it will sample columns 1,51,101,151, and 201 and analyze it. In other words, the sections will be following sections of the original matrix [1:250,1] , [1:250,51], [1:250,101], [1:250,151], [1:250,201]. The default for parameter n_sections is "all", it will calculate hole_section_data() for each column of pixel. In other words, it will break the image in a number of section equal to the image pixel width.
+#' @description Summary information of holes in a given number of columns (n_sections). n_sections must be set as a number, in this situation hole_columm will sample columns, and apply hole_section_data function for each section. Next, all results will be display on hole_columm output. Example of how column sample works: in a matrix of 250x250 if n_sections =  5 , it will sample columns 1,51,101,151, and 201 and analyze it. In other words, the sections will be following sections of the original matrix [1:250,1] , [1:250,51], [1:250,101], [1:250,151], [1:250,201]. The default for parameter n_sections is "all", it will calculate hole_section_data for each column of pixel. In other words, it will break the image in a number of section equal to the image pixel width.
 #' @param imagematrix The matrix to be analysed.
 #' @param color Color of the hole (0 or 1).
-#' @param n_sections Get data of this number of columns.
-#' @return Summary of hole in columms
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @param n_sections Sample this number of columns.
+#' @return
+#' \item{N}{Number of sections.}
+#' \item{Mean}{Mean sections size.}
+#' \item{SD}{standard deviations of sections size.}
+#' \item{Min}{Minimum sections size sections size.}
+#' \item{Max}{Maximum sections size.}
+#' \item{LH}{Stratum with largest hole count.}
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso hole_section_data threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -432,8 +466,6 @@ hole_section_data <-
 #'
 #' # Information of black (i.e. 1s in matrix) holes in 20 columns uniformly sample among matrix.
 #' hole_columm(bush_imagematrix, n_sections=20 )
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 hole_columm <-
   function(imagematrix, color = 0, n_sections = "all") {
@@ -464,13 +496,20 @@ hole_columm <-
     names(resposta) <- c("N", "Mean", "SD", "Min","Max", "LH")
     return(resposta)
   }
-#' @title Holes - rows
-#' @description Summary information of holes in a given number of rows (n_sections). n_sections must be set as a number, in this situation hole_row will sample rows, and apply hole_section_data() function for each section. Next, all results will be display on hole_columm output. Example of how row sample works: in a matrix of 250x250 if n_sections =  5 , it will sample rows 1,51,101,151, and 201 and analyze it. In other words, the sections will be following sections of the original matrix [1,1:250] , [51,1:250] , [101,1:250] , [151,1:250] , [201,1:250]. The default for parameter n_sections is "all", it will calculate hole_section_data() for each row of pixel. In other words, it will break the image in a number of section equal to the image pixel height.
+#' @title Holes description in row sections
+#' @description Summary information of holes in a given number of rows (n_sections). n_sections must be set as a number, in this situation hole_row will sample rows, and apply hole_section_data function for each section. Next, all results will be display on hole_columm output. Example of how row sample works: in a matrix of 250x250 if n_sections =  5 , it will sample rows 1,51,101,151, and 201 and analyze it. In other words, the sections will be following sections of the original matrix [1,1:250] , [51,1:250] , [101,1:250] , [151,1:250] , [201,1:250]. The default for parameter n_sections is "all", it will calculate hole_section_data for each row of pixel. In other words, it will break the image in a number of section equal to the image pixel height.
+#' @param imagematrix The matrix to be analysed.
 #' @param color Color of the hole (0 or 1).
-#' @param n_sections Break the image in this number of rows.
-#' @return Summary of hole in rows
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @param n_sections Sample this number of rows.
+#' @return
+#' \item{N}{Number of sections.}
+#' \item{Mean}{Mean sections size.}
+#' \item{SD}{standard deviations of sections size.}
+#' \item{Min}{Minimum sections size sections size.}
+#' \item{Max}{Maximum sections size.}
+#' \item{LH}{Stratum with largest hole count.}
+#' @author Carlos Biagolini-Jr.
+#' @seealso hole_section_data threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -481,8 +520,6 @@ hole_columm <-
 #'
 #' # Information of black (i.e. 1s in matrix) holes in 15 rows uniformly sample among matrix.
 #' hole_row(bush_imagematrix, n_sections=15)
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 hole_row <-
   function(imagematrix, color = 0, n_sections = "all") {
@@ -517,13 +554,14 @@ hole_row <-
 #' @title Light gap
 #'
 #' @description Left and right distances from first black pixel to image edge.
-#' @param imagematrix The matrix to be analysed.
+#' @param imagematrix The matrix to be analysed
 #' @param width_size Real size of image width (in mm, cm, m, etc..).
 #' @param scale If FALSE do not ajust the output for real size.
 #' @return Distances without black pixel in each side of the picture
-#' @return denseness, mean and standard deviations
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -532,8 +570,6 @@ hole_row <-
 #' # Calculate vegetation Light gap in the bush image matrix
 #' light_gap(bush_imagematrix,width_size=100)
 #' # Conclusion: there is no light gap on both sides of bush image.
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 light_gap <-
   function(imagematrix, width_size = NA, scale = TRUE) {
@@ -583,14 +619,16 @@ light_gap <-
     names(resposta) <- c("Left gap size", "Right gap size")
     return(resposta)
   }
-#' @title Highest black pixel - All image
+#' @title Height of the highest black pixel in the image
 #'
 #' @description Find the higher black pixel in the whole image.
 #' @param imagematrix The matrix to be analysed.
 #' @param height_size Real size of image width (in mm, cm, m, etc..).
-#' @return Height of the highest black pixel
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return Height of the highest black pixel. It is scaleted for the real size (in mm, cm, m, etc..) based in the information from argument height_size.
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -599,8 +637,6 @@ light_gap <-
 #' # Calculate height of the highest black pixel in the bush image matrix
 #' heigh_maximum(bush_imagematrix,height_size=100)
 #' # Conclusions: The highest vegetation unit ,i.e. highest black pixel, is 84.4 cm above ground.
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 heigh_maximum <-
   function(imagematrix, height_size) {
@@ -628,13 +664,18 @@ heigh_maximum <-
   }
 #' @title Highest black pixel by sections
 #'
-#' @description Break the original matrix in a number of section ( n_sections), then find the higher black pixel in each image sections.
+#' @description Break the original matrix in a number of section ( n_sections), then find the higher black pixel in each image section.
 #' @param imagematrix The matrix to be analysed.
 #' @param n_sections Break the image in this number of columns.
 #' @param height_size Real size of image height (in mm, cm, m, etc..).
-#' @return Mean, standard deviations and size of the highest black pixel in each section. Results are present in the scale provide on height_size.
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return
+#' \item{Mean}{Height mean of the highest black pixel in sections.}
+#' \item{SD}{Standard deviations of the highest black pixel in sections.}
+#' \item{Size}{Height of the highest black pixel in sections.}
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -645,8 +686,6 @@ heigh_maximum <-
 #' # Conclusions:
 #' # i)  the mean height of the highest black pixel is 45.28 cm.
 #' # ii) standard deviation of highest black height is 21.54.
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 altitudinal_profile <-
   function(imagematrix, n_sections, height_size) {
@@ -672,12 +711,14 @@ altitudinal_profile <-
     names(resposta) <- c("Mean", "SD","Size")
     return(resposta)}
 
-#' @title Cumulative denseness
+#' @title Cumulative denseness for each line
 #'
 #' @description Proportion of black pixel below each matrix line.
 #' @param imagematrix The matrix to be analysed.
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -685,8 +726,6 @@ altitudinal_profile <-
 #'
 #' # Proportion of black pixel below each matrix line.
 #' heigh_propotion(bush_imagematrix)
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 heigh_propotion <-
   function(imagematrix) {
@@ -709,10 +748,12 @@ heigh_propotion <-
 #'
 #' @description Find the height which a given proportion of black pixel is found.
 #' @param imagematrix The matrix to be analysed.
-#' @param proportion proportion of denseness to test
+#' @param proportion Proportion of denseness to test.
 #' @param height_size Real size of image height (in mm, cm, m, etc..).
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -721,8 +762,6 @@ heigh_propotion <-
 #' # See the proportion of black pixels (1) below each bush image matrix row
 #' heigh_propotion_test(bush_imagematrix,0.75,100)
 #' # Conclusion: in this imagem, 75 percent of the vegetation is hold below 31.2 cm.
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 heigh_propotion_test <-
   function(imagematrix, proportion, height_size) {
@@ -739,15 +778,16 @@ heigh_propotion_test <-
     names(altura) <- c(paste("Height below whitch", proportion, "of the vegetation denseness is located"))
     return(altura)
   }
-
 #' @title Top line
 #' @description Line running along the crest of highest black pixel.
 #' @param imagematrix The matrix to be analysed.
 #' @param height_size Real size of image height (in mm, cm, m, etc..).
 #' @param width_size Real size of image width (in mm, cm, m, etc..).
-#' @return Line size that cover black pixels
-#' @details
-#'  Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
+#' @return Top line size that cover black pixels
+#' @references
+#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
+#' @author Carlos Biagolini-Jr.
+#' @seealso threshold_color
 #' @examples
 #' # First, get a matrix from your image. Here an example of a bush image is used.
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
@@ -756,8 +796,6 @@ heigh_propotion_test <-
 #' # See the proportion of black pixels (1) below each bush image matrix row
 #' topline(bush_imagematrix,100,100)
 #' # Conclusion: topline size is 785.6 cm.
-#' @references
-#' Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.
 #' @export
 topline <-
   function(imagematrix, height_size = NA, width_size = NA) {
@@ -809,7 +847,8 @@ topline <-
     names(resposta) <- "topline"
     return(resposta)
   }
-###################################################################################################################################################################################################################################################################################################################################################################### FUNCOES INTERNAS ######################################################################################################################################################################################################################################################################################################################################################################
+
+### FUNCOES INTERNAS
 # Aggregation matrix
 aggregation_matrix <- function(imagematrix) {
   linhas_imagem <- nrow(imagematrix)
