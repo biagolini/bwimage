@@ -19,10 +19,16 @@ Proportion of black pixels in relation to all pixels. It do not take into accoun
 Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
 }
 \examples{
-# First, get a matrix for your image. Here an example of a bush image is used.
+# Get a matrix from your image. Here  examples provided by bwimage package.
+
+# I) Calculate vegetation denseness
 bush<-system.file("extdata/bush.JPG",package ="bwimage")
 bush_imagematrix<-threshold_color(bush,  "jpeg", "proportional",compress_rate = 0.1)
-# For further information, see : help(threshold_color)
-
 denseness_total(bush_imagematrix)
+
+# II) Calculate canopy openness
+# Convert image into binary matrix
+canopy<-system.file("extdata/canopy.JPG",package ="bwimage")
+canopy_matrix<-threshold_color(canopy,compress_method="proportional",compress_rate=0.1)
+1-denseness_total(canopy_matrix) # canopy openness
 }

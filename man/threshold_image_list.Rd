@@ -34,13 +34,9 @@ Convert two or more images into a list of matrices
 }
 \examples{
 # Image examples provided by bwimage package
-flag<-system.file("extdata/flag.png",package ="bwimage")
-star<-system.file("extdata/star.png",package ="bwimage")
-triangle<-system.file("extdata/triangle.png",package ="bwimage")
+bush<-system.file("extdata/bush.JPG",package ="bwimage")
+canopy<-system.file("extdata/canopy.JPG",package ="bwimage")
 
 # Convert images to a list of matrices
-working_matrices<-threshold_image_list(c(flag,star,triangle), filetype ="png")
-
-# For further information, see
-help(threshold_color)
+working_matrices<-threshold_image_list(c(bush,canopy), "jpeg", "proportional", compress_rate = 0.1)
 }

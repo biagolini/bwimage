@@ -4,7 +4,7 @@
 \alias{heigh_propotion_test}
 \title{Cumulative denseness test}
 \usage{
-heigh_propotion_test(imagematrix, proportion = NA, height_size = NA)
+heigh_propotion_test(imagematrix, proportion, height_size)
 }
 \arguments{
 \item{imagematrix}{The matrix to be analysed.}
@@ -20,10 +20,9 @@ Find the height which a given proportion of black pixel is found.
 Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
 }
 \examples{
-# First, get a matrix for your image. Here an example of a bush image is used.
+# First, get a matrix from your image. Here an example of a bush image is used.
 bush<-system.file("extdata/bush.JPG",package ="bwimage")
 bush_imagematrix<-threshold_color(bush,  "jpeg",  "proportional", compress_rate = 0.1)
-# For further information, see : help(threshold_color)
 
 # See the proportion of black pixels (1) below each bush image matrix row
 heigh_propotion_test(bush_imagematrix,0.75,100)

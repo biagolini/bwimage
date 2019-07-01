@@ -4,7 +4,7 @@
 \alias{altitudinal_profile}
 \title{Highest black pixel by sections}
 \usage{
-altitudinal_profile(imagematrix, n_sections = NA, height_size = NA)
+altitudinal_profile(imagematrix, n_sections, height_size)
 }
 \arguments{
 \item{imagematrix}{The matrix to be analysed.}
@@ -23,16 +23,15 @@ Break the original matrix in a number of section ( n_sections), then find the hi
 Description of the bush image example provided by bwimage package: The imagem comprises a vegetation section of 30x100cm. To get this photo, in one of the 100cm side of the panel of 100x100cm covered with a white cloth was placed perpendicular to the ground. A plastic canvas of 50x100cm was used to cover the vegetation along a narrow strip in front of a camera positioned on a tripod at a height of 55 cm. A photograph of the portion of standing vegetation against the white cloth was taken.
 }
 \examples{
-# First, get a matrix for your image. Here an example of a bush image is used.
+# First, get a matrix from your image. Here an example of a bush image is used.
 bush<-system.file("extdata/bush.JPG",package ="bwimage")
 bush_imagematrix<-threshold_color(bush,  "jpeg",  "proportional", compress_rate = 0.1)
-# For further information, see : help(threshold_color)
 
 # Profile  of  highest black pixels on sections of the bush image matrix
 altitudinal_profile(bush_imagematrix,n_sections = 10, height_size=100)
-# Conclusions: i) the mean height of the highest black pixel is 45.28 cm;
-#  ii) standard deviation of highest black height is 21.54;
-# iii) information of the height of the highest black
+# Conclusions:
+# i)  the mean height of the highest black pixel is 45.28 cm.
+# ii) standard deviation of highest black height is 21.54.
 }
 \references{
 Zehm et al 2003 Multiparameter analysis of vertical vegetation structure based on digital image processing. Flora-Morphology, Distribution, Functional Ecology of Plants, 198: 142-160.

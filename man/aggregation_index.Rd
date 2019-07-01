@@ -16,12 +16,14 @@ The standardized aggregation index (adjusted_aggregation) and averaged SCNP (non
 The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixel (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one. The function aggregation_index calculate the aggregation index . It works for matrix with and without transparent pixel.
 }
 \examples{
-# Na example of a triangle image provided by bwimage package
-image_file<-system.file("extdata/triangle.png",package ="bwimage" )
-triangle_imagematrix<-threshold_color(image_file, filetype ="png") # see note below
-aggregation_index(triangle_imagematrix)
-# For your images, if the file is in the working directory type:
-# threshold_color("FILE_NAME.EXTENSION", filetype ="FILE_EXTENSION")
-# or, if the file is in the other directory:
-# threshold_color("C:/PATH TO FILE FOLDER/YOUR_FILE_NAME.EXTENSION", filetype ="FILE_EXTENSION")
+# First, get a matrix from your image. Here an example of a bush image is used.
+# Using aggregation_index to estimate vegetation agregation
+bush<-system.file("extdata/bush.JPG", package ="bwimage")
+bush_imagematrix<-threshold_color(bush, "jpeg", "proportional",compress_rate = 0.1)
+aggregation_index(bush_imagematrix)
+
+# Using aggregation_index to estimate aggregation of nest wall holes
+nestwall<-system.file("extdata/bird_nestwall.png", package ="bwimage")
+nestwall_imagematrix<-threshold_color(nestwall, "png","width_fixed",target_width=300)
+aggregation_index(nestwall_imagematrix)
 }

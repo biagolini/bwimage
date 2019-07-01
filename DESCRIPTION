@@ -15,3 +15,4 @@ Repository: CRAN
 Date/Publication: 2019-06-28 15:00:22 UTC
 Suggests: 
     covr
+RoxygenNote: 6.1.1

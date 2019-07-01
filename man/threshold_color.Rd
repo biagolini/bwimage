@@ -32,13 +32,11 @@ A matrix of 0, 1 and NA representing white, black and transparent pixels, respec
 Convert a single image into a matrix
 }
 \examples{
-triangle<-system.file("extdata/triangle.PNG",package ="bwimage")
-triangle_imagematrix<-threshold_color(triangle,  filetype ="png")
-# An example of a canopy photo provided by bwimage package
-canopy<-system.file("extdata/canopy.JPG",package ="bwimage")
-canopy_imagematrix<-threshold_color(canopy, "jpeg", "proportional",compress_rate = 0.25)
- # an example of a bird nestwall photo provided by bwimage package
-nestwall<-system.file("extdata/bird_nestwall.png",package ="bwimage")
-nestwall_imagematrix<-threshold_color(nestwall, "width_fixed", target_width=500)
+bush<-system.file("extdata/bush.JPG",package ="bwimage")
+threshold_color(bush,"jpeg", "frame_fixed",target_width = 15,target_height=15)
 
+# For your images, if the file is in the working directory type:
+# threshold_color("FILE_NAME.EXTENSION", filetype ="FILE_EXTENSION")
+# or, if the file is in the other directory:
+# threshold_color("C:/PATH TO FILE FOLDER/YOUR_FILE_NAME.EXTENSION", "FILE_EXTENSION")
 }
