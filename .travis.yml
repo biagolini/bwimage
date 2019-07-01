@@ -1,0 +1,14 @@
+language: r
+
+os:
+  - linux
+  - osx
+
+r:
+  - 3.5
+  - oldrel
+  - release
+
+
+after_success:
+    - Rscript -e 'covr::codecov(type="all", token="XXXXXXXXXXXXX")'
