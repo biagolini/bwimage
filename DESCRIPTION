@@ -11,13 +11,14 @@ NeedsCompilation: no
 Packaged: 2019-06-28 14:03:39 UTC; biago
 Repository: CRAN
 RoxygenNote: 6.1.1
-Depends: 
+Imports:
     jpeg, 
-    png, 
+    png 
+Depends: 
     stats, 
     utils
 Suggests: 
-    covr,
     knitr,
-    rmarkdown
-
+    rmarkdown,
+    covr
+VignetteBuilder: knitr

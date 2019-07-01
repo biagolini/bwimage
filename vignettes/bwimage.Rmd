@@ -1,5 +1,6 @@
 ---
 title: "bwimage"
+author: "Carlos Biagolini-Jr."
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{bwimage}
@@ -12,6 +13,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{r setup}
+library(bwimage)
 ```
 
 

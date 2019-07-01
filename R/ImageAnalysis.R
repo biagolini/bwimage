@@ -44,6 +44,8 @@ aggregation_index <-
 #' @param transparency_regulation For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold) will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.
 #' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
 #' @author Carlos Biagolini-Jr.
+#' @importFrom jpeg readJPEG
+#' @importFrom png readPNG
 #' @examples
 #' bush<-system.file("extdata/bush.JPG",package ="bwimage")
 #' threshold_color(bush,"jpeg", "frame_fixed",target_width = 15,target_height=15)
