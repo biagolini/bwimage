@@ -781,7 +781,7 @@ heigh_propotion_test <-
     altura <- sum(proportion > round(total_acumulado, 5)) + 1  # Como e um acomulado, quando voce obseva o primeiro 1 isso quer dizer que ali estava a ultima celula com dado, e foi la que foi a partir daquela linha que foi observado esse valor
     altura <- altura * (height_size/length(total_acumulado))  # colocar na escala
 
-    names(altura) <- c(paste("Height below whitch", proportion, "of the vegetation denseness is located"))
+    names(altura) <- c(paste("Height below which", proportion, "of the vegetation denseness is located"))
     return(altura)
   }
 #' @title Top line
