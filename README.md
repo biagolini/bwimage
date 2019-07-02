@@ -7,6 +7,9 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/bwimage)](https://cran.r-project.org/package=bwimage)
 [![Downloads](https://cranlogs.r-pkg.org/badges/bwimage)](https://CRAN.R-project.org/package=bwimage)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bwimage?color=orange)](https://CRAN.R-project.org/package=bwimage)
+[![DOI](https://zenodo.org/badge/194668125.svg)](https://zenodo.org/badge/latestdoi/194668125)
+
+
 [![Travis build status](https://travis-ci.org/biagolini/bwimage.svg?branch=master)](https://travis-ci.org/biagolini/bwimage)
 [![Build status](https://ci.appveyor.com/api/projects/status/yomvstj7grbq3vv8?svg=true)](https://ci.appveyor.com/project/biagolini/bwimage)
 [![Codecov test coverage](https://codecov.io/gh/biagolini/bwimage/branch/master/graph/badge.svg)](https://codecov.io/gh/biagolini/bwimage?branch=master)

@@ -1,7 +1,7 @@
 Package: bwimage
 Type: Package
 Title: Describe Image Patterns in Natural Structures
-Version: 1.0
+Version: 1.01
 Date: 2019-06-24
 Author: Carlos Biagolini-Jr.
 Maintainer: Carlos Biagolini-Jr.<c.biagolini@gmail.com>
