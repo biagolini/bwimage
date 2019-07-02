@@ -17,7 +17,7 @@
 ## Introdution
 The facility to obtain high quality digital images creates the opportunity to measure natural variables using image analyses. Bwimage is an R package to analyze patterns in black and white images from natural structures. 
 ## Methods
-Bwimage s analysis of images is based on the transformation from a picture (jpeg and png files are allowed) to a binary matrix (Figure 1). For each pixel, the intensity of red, green and blue is averaged and compared to a threshold. If the average intensity is less than the threshold (default is 50%) the pixel will be set as black, otherwise it will be white
+Bwimage s analysis of images is based on the transformation from a picture (jpeg and png files are allowed) to a binary matrix. For each pixel, the intensity of red, green and blue is averaged and compared to a threshold. If the average intensity is less than the threshold (default is 50%) the pixel will be set as black, otherwise it will be white
 ## Image compaction
 By reducing resolution, the accuracy of data description will also be lowered. If the user is not acquainted with scale and threshold processing and/or images were captured under different light conditions, I recommend the scale and application of threshold algorithms in a native image editor software, such as GIMP (https://www.gimp.org/), and subsequent usage of the resulting images with the bwimage package.
 ## Installing the release version of the `bwimage` R package
