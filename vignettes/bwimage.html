@@ -307,21 +307,28 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <div id="introdution" class="section level2">
 <h2>Introdution</h2>
-<p>The facility to obtain high quality digital images creates the opportunity to measure natural variables using image analyses. Bwimage is an R package to analyze patterns in black and white images from natural structures. ## Methods Bwimage s analysis of images is based on the transformation from a picture (jpeg and png files are allowed) to a binary matrix (Figure 1). For each pixel, the intensity of red, green and blue is averaged and compared to a threshold. If the average intensity is less than the threshold (default is 50%) the pixel will be set as black, otherwise it will be white ## Image compaction By reducing resolution, the accuracy of data description will also be lowered. If the user is not acquainted with scale and threshold processing and/or images were captured under different light conditions, I recommend the scale and application of threshold algorithms in a native image editor software, such as GIMP, and subsequent usage of the resulting images with the bwimage package. ## Installing the release version of the <code>bwimage</code> R package</p>
-<p>You can install <code>GenTag</code> from CRAN with:</p>
+<p>The facility to obtain high quality digital images creates the opportunity to measure natural variables using image analyses. Bwimage is an R package to analyze patterns in black and white images from natural structures. ## Methods Bwimage s analysis of images is based on the transformation from a picture (jpeg and png files are allowed) to a binary matrix. For each pixel, the intensity of red, green and blue is averaged and compared to a threshold. If the average intensity is less than the threshold (default is 50%) the pixel will be set as black (1 in matrix), otherwise it will be white (0 in matrix).</p>
+</div>
+<div id="image-compaction" class="section level2">
+<h2>Image compaction</h2>
+<p>By reducing resolution, the accuracy of data description will also be lowered. If the user is not acquainted with scale and threshold processing and/or images were captured under different light conditions, I recommend the scale and application of threshold algorithms in a native image editor software, such as GIMP (<a href="https://www.gimp.org/" class="uri">https://www.gimp.org/</a>), and subsequent usage of the resulting images with the bwimage package.</p>
+</div>
+<div id="installing-the-release-version-of-the-bwimage-r-package" class="section level2">
+<h2>Installing the release version of the <code>bwimage</code> R package</h2>
+<p>You can install <code>bwimage</code> from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;bwimage&quot;</span>)</a></code></pre></div>
-<div id="installing-the-development-version-of-the-gentag-r-package" class="section level3">
-<h3>Installing the development version of the <code>GenTag</code> R package</h3>
+<div id="installing-the-development-version-of-the-bwimage-r-package" class="section level3">
+<h3>Installing the development version of the <code>bwimage</code> R package</h3>
 <p>You can install the development version from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;biagolini/bwimage&quot;</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="usage" class="section level2">
 <h2>Usage</h2>
+<p>Examples below illustrate how to use bwimage to describe patterns in black white images.</p>
 <p>Download bwimage and load into R</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;bwimage &quot;</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw">library</span>(<span class="st">&quot;bwimage&quot;</span>)</a></code></pre></div>
-<p>Examples below illustrate how to use bwimage to describe patterns in black white images.</p>
 <p>Calculate canopy openness A photo was taken with a camera placed in the ground, perpendicular to the ground. Canopy openness is equal the proportion of white pixels in relation to all image pixels.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Load a path to an image example</span></a>
 <a class="sourceLine" id="cb4-2" title="2">canopy&lt;-<span class="kw">system.file</span>(<span class="st">&quot;extdata/canopy.JPG&quot;</span>,<span class="dt">package =</span><span class="st">&quot;bwimage&quot;</span>)</a>
