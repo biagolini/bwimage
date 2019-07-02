@@ -12,7 +12,7 @@
 [![Codecov test coverage](https://codecov.io/gh/biagolini/bwimage/branch/master/graph/badge.svg)](https://codecov.io/gh/biagolini/bwimage?branch=master)
 <!-- badges: end -->
 
-> A computational tool to create sequences of animal color tags
+> A computational tool to describe patterns from black and white images.
 
 ## Introdution
 The facility to obtain high quality digital images creates the opportunity to measure natural variables using image analyses. Bwimage is an R package to analyze patterns in black and white images from natural structures. 
