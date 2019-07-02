@@ -8,7 +8,8 @@
 [![Downloads](https://cranlogs.r-pkg.org/badges/bwimage)](https://CRAN.R-project.org/package=bwimage)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bwimage?color=orange)](https://CRAN.R-project.org/package=bwimage)
 [![Travis build status](https://travis-ci.org/biagolini/bwimage.svg?branch=master)](https://travis-ci.org/biagolini/bwimage)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/biagolini/bwimage/?branch=master&svg=true)](https://ci.appveyor.com/project/biagolini/bwimage/)
+[![Build status](https://ci.appveyor.com/api/projects/status/yomvstj7grbq3vv8?svg=true)](https://ci.appveyor.com/project/biagolini/bwimage)
+https://ci.appveyor.com/api/projects/status/yomvstj7grbq3vv8?svg=true
 [![Codecov test coverage](https://codecov.io/gh/biagolini/bwimage/branch/master/graph/badge.svg)](https://codecov.io/gh/biagolini/bwimage?branch=master)
 <!-- badges: end -->
 
