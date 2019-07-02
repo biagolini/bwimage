@@ -81,10 +81,9 @@ aggregation_index(nestwall_imagematrix)
 ```
 ## Author information
 Carlos Biagolini-Jr.  
-email: <c.biagolini@gmail.com>
-CV: <http://lattes.cnpq.br/4086237188108947>
-Google Scholar: <https://scholar.google.com.br/citations?user=WPJugvoAAAAJ>
-researchgate: <https://www.researchgate.net/profile/Carlos_Biagolini-Jr>
+email: <c.biagolini@gmail.com>  
+CV: <http://lattes.cnpq.br/4086237188108947>  
+
 
 ## Contributing
  fork <https://github.com/biagolini/bwimage/fork>
