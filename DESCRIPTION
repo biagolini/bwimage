@@ -20,5 +20,5 @@ Depends:
 Suggests: 
     knitr,
     rmarkdown,
-    covr
-
+    covr,
+    testthat (>= 2.1.0)
