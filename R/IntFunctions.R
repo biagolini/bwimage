@@ -544,3 +544,78 @@ adjusted_aggregation_with_transparence <-
     valor_corrigido <- obs.corrigido/range
     return(valor_corrigido)
   }
+
+########## Functions for stretch data from circular image to square
+correcao_ida<-function(antigoy,antigox,mediay,mediax){
+  ny<- (antigoy-mediay)*-1
+  nx<- antigox-mediax
+  return(c(ny,nx))}
+
+correcao_volta<-function(ny,nx,mediay,mediax){
+  antigoy<-(ny/-1)+mediay
+  antigox<-nx+mediax
+  return(c(antigoy,antigox))}
+
+# Radial Stretching
+radial<-function(y,x,height,width){
+  r<-sqrt(x^2+y^2)
+  if(r==0){
+    ###  r = 0
+    u<-0;v<-0
+  }else{
+    if(abs(x)>=abs(y)){
+      ### x > y
+      u<-x^2/r ; u<-sign(x)*u # U - Value
+      v<-(x*y)/r ; v<-sign(x)*v # V - value
+    }else{
+      ### x < y
+      u<-(x*y)/r; u<-sign(y)*u # U - Value
+      v<-(y^2)/r; v<-sign(y)*v # V - value
+    }}
+  return(c(v,u))}
+
+# Shirley
+shirley<-function(y,x,height,width){
+  if(x^2>y^2){
+    r<-x # r - Value
+    p<-(pi/4)*y/x # V - value
+  }else{
+    if(x^2<=y^2&y^2>0){
+      ### x < y
+      r<-y # r - Value
+      p<- (pi/2)-((pi/4)*x/y) # V - value
+    }else{
+      r<-p<-0}}
+  u<- r*cos(p)
+  v<- r*sin(p)
+  return(c(v,u))}
+
+
+# Squircle Stretching
+squircle<-function(y,x,height,width){
+  # Entra na escala
+  y<-y/height
+  x<-x/width
+  if(x==0&y==0){u<-v<-0}else{
+    u<- x*(sqrt(x^2+y^2-(x^2*y^2))/sqrt(x^2+y^2)) # U - Value
+    v<- y*(sqrt(x^2+y^2-(x^2*y^2))/sqrt(x^2+y^2)) # V - value
+  }
+  # Sai da escala
+  v<-v*height
+  u<-u*width
+  return(c(v,u))}
+
+# Elliptical
+elliptical<-function(y,x,height,width){
+  # Entra na escala
+  y<-y/height
+  x<-x/width
+  # Calculo
+  u<- x*sqrt(1-(y^2/2)) # U - Value
+  v<- y*sqrt(1-(x^2/2)) # V - value
+  # Sai da escala
+  v<-v*height
+  u<-u*width
+  return(c(v,u))
+}
+##########

@@ -145,3 +145,49 @@ threshold_image_list <-
     close(pb)
     resposta <- lista_de_saida
     return(resposta)}
+
+#' @title stretch circle to square
+#'
+#' @description Stretch data data from circular image to square in binary matrix
+#' @param imagematrix The matrix to be stretched.
+#' @param stretch_method Stretch algorithm. Four algorithms (radial, shirley, squircle, and elliptical) are available to stretch the image. The algorithms were adapted from Lambers 2016.
+#' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
+#' @references
+#' Lambers 2016 Mappings between Sphere, Disc, and Square. Journal of Computer Graphics Techniques, 5(2): 1-21.
+#' @author Carlos Biagolini-Jr.
+#' @examples
+#' img_location <- system.file("extdata/chesstable.png",package ="bwimage")
+#' circular_matrix<- threshold_color(img_location,"png")
+#' stretched_matrix<-stretch(circular_matrix,stretch_method="radial")
+#' @export
+stretch<-function(imagematrix,stretch_method="radial"){
+  if (!(stretch_method == "radial" | stretch_method == "shirley" | stretch_method == "squircle" | stretch_method == "elliptical")) {
+    stop("Provide a valid stretch method")}
+  matrix_resposta<-matrix(NA,ncol=length(imagematrix[1,]),nrow=length(imagematrix[,1]))
+  altura<-floor(length(imagematrix[,1])/2) # Altura da imagem dividido por 2
+  largura<-floor(length(imagematrix[1,])/2) # Largura da imagem dividido por 2
+
+  for(l in 1: length(imagematrix[,1])){ # linhas = y
+    for(c in 1: length(imagematrix[1,])){ # colunas = x
+      co1<-correcao_ida(l,c,altura,largura) # Coordenada do pixel a ser pintado em escala -1:1
+      if (stretch_method == "radial") {
+        # funcao radial
+        co2<-radial(co1[1],co1[2]) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+      }else{
+        if (stretch_method == "shirley"){
+          # funcao shirley
+          co2<-shirley(co1[1],co1[2]) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+        }else{
+          if (stretch_method == "squircle") {
+            # funcao squircle
+            co2<-squircle(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+          }else{
+            if (stretch_method == "elliptical") {
+              # funcao elliptical
+              co2<-elliptical(co1[1],co1[2],altura,largura)  # Coordenada do pixel que vai ter a cor copida na escala -1:1
+              show(paste("squircle","l=",l,"c=",c))
+            }else{stop("Provide a valid stretch method")}}}}
+      co3<-correcao_volta(co2[1],co2[2],altura,largura) # Coordenada do pixel que vai ter a cor copida sem escala
+      matrix_resposta[l,c]<- imagematrix[floor(co3[1]),floor(co3[2])]
+      co1<-co2<-co3<-NULL}}
+  return(matrix_resposta)}

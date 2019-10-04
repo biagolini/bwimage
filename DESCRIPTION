@@ -1,8 +1,8 @@
 Package: bwimage
 Type: Package
 Title: Describe Image Patterns in Natural Structures
-Version: 1.01
-Date: 2019-06-24
+Version: 1.02
+Date: 2019-10-04
 Author: Carlos Biagolini-Jr.
 Maintainer: Carlos Biagolini-Jr.<c.biagolini@gmail.com>
 Description: A computational tool to describe patterns in black and white images from natural structures. 'bwimage' implemented functions for exceptionally broad subject. For instance, 'bwimage' provide examples that range from calculation of canopy openness, description of patterns in vertical vegetation structure, to patterns in bird nest structure.   
