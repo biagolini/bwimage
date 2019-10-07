@@ -2,6 +2,7 @@
 
 export(aggregation_index)
 export(altitudinal_profile)
+export(compress)
 export(denseness_column)
 export(denseness_row)
 export(denseness_total)

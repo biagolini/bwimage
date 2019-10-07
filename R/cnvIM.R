@@ -150,44 +150,97 @@ threshold_image_list <-
 #'
 #' @description Stretch data data from circular image to square in binary matrix
 #' @param imagematrix The matrix to be stretched.
-#' @param stretch_method Stretch algorithm. Four algorithms (radial, shirley, squircle, and elliptical) are available to stretch the image. The algorithms were adapted from Lambers 2016.
+#' @param method Stretch algorithm. Four algorithms (radial, shirley, squircle, and elliptical) are available to stretch the image. The algorithms were adapted from Lambers 2016.
 #' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
 #' @references
 #' Lambers 2016 Mappings between Sphere, Disc, and Square. Journal of Computer Graphics Techniques, 5(2): 1-21.
 #' @author Carlos Biagolini-Jr.
 #' @examples
 #' img_location <- system.file("extdata/chesstable.png",package ="bwimage")
-#' circular_matrix<- threshold_color(img_location,"png")
-#' stretched_matrix<-stretch(circular_matrix,stretch_method="radial")
+#' image_matrix<- threshold_color(img_location,"png", "frame_fixed",target_width = 50,target_height=50)
+#' stretch(image_matrix,method="radial")
 #' @export
-stretch<-function(imagematrix,stretch_method="radial"){
-  if (!(stretch_method == "radial" | stretch_method == "shirley" | stretch_method == "squircle" | stretch_method == "elliptical")) {
+stretch<-function(imagematrix,method="radial"){
+  if (!(method == "radial" | method == "shirley" | method == "squircle" | method == "elliptical")) {
     stop("Provide a valid stretch method")}
-  matrix_resposta<-matrix(NA,ncol=length(imagematrix[1,]),nrow=length(imagematrix[,1]))
+  matrix_resposta<-matrix(1,ncol=length(imagematrix[1,]),nrow=length(imagematrix[,1]))
   altura<-floor(length(imagematrix[,1])/2) # Altura da imagem dividido por 2
   largura<-floor(length(imagematrix[1,])/2) # Largura da imagem dividido por 2
-
+  pb <- txtProgressBar(min = 0, max = length(imagematrix[,1]), style = 3)
   for(l in 1: length(imagematrix[,1])){ # linhas = y
     for(c in 1: length(imagematrix[1,])){ # colunas = x
       co1<-correcao_ida(l,c,altura,largura) # Coordenada do pixel a ser pintado em escala -1:1
-      if (stretch_method == "radial") {
+      if (method == "radial") {
         # funcao radial
-        co2<-radial(co1[1],co1[2]) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+        co2<-radial(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
       }else{
-        if (stretch_method == "shirley"){
+        if (method == "shirley"){
           # funcao shirley
-          co2<-shirley(co1[1],co1[2]) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+          co2<-shirley(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
         }else{
-          if (stretch_method == "squircle") {
+          if (method == "squircle") {
             # funcao squircle
             co2<-squircle(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
           }else{
-            if (stretch_method == "elliptical") {
+            if (method == "elliptical") {
               # funcao elliptical
               co2<-elliptical(co1[1],co1[2],altura,largura)  # Coordenada do pixel que vai ter a cor copida na escala -1:1
-              show(paste("squircle","l=",l,"c=",c))
             }else{stop("Provide a valid stretch method")}}}}
       co3<-correcao_volta(co2[1],co2[2],altura,largura) # Coordenada do pixel que vai ter a cor copida sem escala
       matrix_resposta[l,c]<- imagematrix[floor(co3[1]),floor(co3[2])]
-      co1<-co2<-co3<-NULL}}
+      co1<-co2<-co3<-NULL}
+    setTxtProgressBar(pb, l)}
+  return(matrix_resposta)}
+
+
+#' @title Compress square to circle
+#'
+#' @description Compress data data from square image to circular in binary matrix
+#' @param imagematrix The matrix to be compressed.
+#' @param method Compress algorithm. Four algorithms (radial, shirley, squircle, and elliptical) are available to stretch the image. The algorithms were adapted from Lambers 2016.
+#' @param background Code for background cell value. When compressing a squared matrix, corners of the transformed matrix will no have corresponding pixel from original matrix. Thus, the background value will be the value of transformed matrix corners.
+#' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
+#' @references
+#' Lambers 2016 Mappings between Sphere, Disc, and Square. Journal of Computer Graphics Techniques, 5(2): 1-21.
+#' @author Carlos Biagolini-Jr.
+#' @examples
+#' img_location <- system.file("extdata/chesstable.png",package ="bwimage")
+#' image_matrix<- threshold_color(img_location,"png", "frame_fixed",target_width = 50,target_height=50)
+#' compress(image_matrix,method="radial")
+#' @export
+compress<-function(imagematrix,method="radial",background=NA){
+  if (!(method == "radial" | method == "shirley" | method == "squircle" | method == "elliptical")) {
+    stop("Provide a valid compress method")}
+  matrix_resposta<-matrix(background,ncol=length(imagematrix[1,]),nrow=length(imagematrix[,1]))
+  altura<-floor(length(imagematrix[,1])/2) # Altura da imagem dividido por 2
+  largura<-floor(length(imagematrix[1,])/2) # Largura da imagem dividido por 2
+  pb <- txtProgressBar(min = 0, max = length(imagematrix[,1]), style = 3)
+  for(l in 1: length(imagematrix[,1])){ # linhas = y
+    for(c in 1: length(imagematrix[1,])){ # colunas = x
+      co1<-correcao_ida(l,c,altura,largura) # Coordenada do pixel a ser pintado em escala -1:1
+      if (method == "radial") {
+        # funcao radial
+        co2<-cradial(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+      }else{
+        if (method == "shirley"){
+          # funcao shirley
+          co2<-cshirley(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+        }else{
+          if (method == "squircle") {
+            # funcao squircle
+            co2<-csquircle(co1[1],co1[2],altura,largura) # Coordenada do pixel que vai ter a cor copida na escala -1:1
+          }else{
+            if (method == "elliptical") {
+              # funcao elliptical
+              co2<-celliptical(co1[1],co1[2],altura,largura)  # Coordenada do pixel que vai ter a cor copida na escala -1:1
+            }else{
+              stop("Provide a valid compress method")
+              }}}}
+      if(!is.na(co2[1])){
+        # primeiro testa de e NA
+        if(altura>abs(co2[1])&largura>abs(co2[2])) { # Testar se a coordenda e valida
+          co3<-correcao_volta(trunc(co2[1]),trunc(co2[2]) ,altura,largura) # Coordenada do pixel que vai ter a cor copida sem escala
+          matrix_resposta[l,c]<- imagematrix[co3[1],co3[2] ]}}
+      co1<-co2<-co3<-NULL}
+    setTxtProgressBar(pb, l)}
   return(matrix_resposta)}

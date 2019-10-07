@@ -545,7 +545,7 @@ adjusted_aggregation_with_transparence <-
     return(valor_corrigido)
   }
 
-########## Functions for stretch data from circular image to square
+########## Functions for stretch/compress image
 correcao_ida<-function(antigoy,antigox,mediay,mediax){
   ny<- (antigoy-mediay)*-1
   nx<- antigox-mediax
@@ -555,9 +555,12 @@ correcao_volta<-function(ny,nx,mediay,mediax){
   antigoy<-(ny/-1)+mediay
   antigox<-nx+mediax
   return(c(antigoy,antigox))}
-
+##### Stretch
 # Radial Stretching
 radial<-function(y,x,height,width){
+  # Entra na escala
+  y<-y/height
+  x<-x/width
   r<-sqrt(x^2+y^2)
   if(r==0){
     ###  r = 0
@@ -572,10 +575,16 @@ radial<-function(y,x,height,width){
       u<-(x*y)/r; u<-sign(y)*u # U - Value
       v<-(y^2)/r; v<-sign(y)*v # V - value
     }}
+  # Sai da escala
+  v<-v*height
+  u<-u*width
   return(c(v,u))}
 
 # Shirley
 shirley<-function(y,x,height,width){
+  # Entra na escala
+  y<-y/height
+  x<-x/width
   if(x^2>y^2){
     r<-x # r - Value
     p<-(pi/4)*y/x # V - value
@@ -588,8 +597,10 @@ shirley<-function(y,x,height,width){
       r<-p<-0}}
   u<- r*cos(p)
   v<- r*sin(p)
+  # Sai da escala
+  v<-v*height
+  u<-u*width
   return(c(v,u))}
-
 
 # Squircle Stretching
 squircle<-function(y,x,height,width){
@@ -616,6 +627,101 @@ elliptical<-function(y,x,height,width){
   # Sai da escala
   v<-v*height
   u<-u*width
-  return(c(v,u))
-}
-##########
+  return(c(v,u))}
+
+##### Compress
+# Radial
+cradial<-function(v,u,height,width){
+  # Entra na escala
+  v<-v/height
+  u<-u/width
+  r<-sqrt(u^2+v^2)
+  if(r==0){
+    ###  r = 0
+    y<-x<-0
+  }else{
+    if(abs(u)>=abs(v)){
+      ### u > v
+      x<-sign(u) * r # x - Value
+      y<-sign(v) * (r*v/u) # y - Value
+    }else{
+      ### u < v
+      x<-sign(u) * (r*u/v)  # x - Value
+      y<-sign(v) * r # y - Value
+    }}
+  # Sai da escala
+  y<-y*height
+  x<-x*width
+  return(c(y,x))}
+
+# Shirley
+cshirley<-function(v,u,height,width){
+  # Entra na escala
+  v<-v/height
+  u<-u/width
+  r<-sqrt(u^2+v^2)
+  #Calculo de Phi (p)
+  if(atan2(v,u)>=(-pi/4)){p<-atan2(v,u)}else{p<-atan2(v,u)+2*pi}
+  if(p<pi/4){ # phi<pi/4
+    x<-r
+    y<-(4/pi)*r*p
+  }else{
+    if(p<3*pi/4){ # phi<3*pi/4
+      x<- (-4/pi)*r*(p-pi/2)
+      y<-r
+    }else{
+      if(p<5*pi/4){# phi<5*pi/4
+        x<- -r
+        y<- (-4/pi)*r*(p-pi)
+      }else{
+        x<-(4/pi)*r*(p-3*pi/2)
+        y<- -r}}}
+  # Sai da escala
+  y<-y*height
+  x<-x*width
+  return(c(y,x))}
+
+
+# Squircle
+csquircle<-function(v,u,height,width){
+  # Entra na escala
+  v<-v/height
+  u<-u/width
+  aux1<-u^2+v^2
+  if( aux1>=(4*u^2*v^2) ){
+    aux2<- sqrt(aux1*(aux1-(4*u^2*v^2)))
+    if(aux1>=aux2){ # testar se a coordenada e valida
+      # coordenada  e valida
+      w<-(sign(u*v)/sqrt(2)) *sqrt(aux1-aux2) # Calculo de w
+      # Calculo x y
+      if(!w==0){
+        x<-w/v
+        y<-w/u
+      }else{
+        x<-u
+        y<-v}
+      # Sai da escala
+      y<-y*height
+      x<-x*width
+    }else{
+      # coordenada invalida
+      y<-x<-NA}
+  }else{y<-x<-NA}
+  return(c(y,x))}
+
+
+# Elliptical
+celliptical<-function(v,u,height,width){
+  # Entra na escala
+  v<-v/height
+  u<-u/width
+  aux1<-(2*sqrt(2)*u)
+  aux2<-(2*sqrt(2)*v)
+  if((2+u^2-v^2+aux1)<0|(2+u^2-v^2-aux1)<0|(2-u^2+v^2+aux2)<0|(2-u^2+v^2-aux2)<0){ # da ruim se
+    y<-x<-NA} else{
+      x<-0.5*sqrt(2+u^2-v^2+aux1) -0.5*sqrt(2+u^2-v^2-aux1)
+      y<-0.5*sqrt(2-u^2+v^2+aux2) -0.5*sqrt(2-u^2+v^2-aux2)
+      # Sai da escala
+      y<-y*height
+      x<-x*width}
+  return(c(y,x))}
