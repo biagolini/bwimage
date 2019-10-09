@@ -6,15 +6,19 @@
 \usage{
 threshold_image_list(list_names, filetype = "jpeg",
   compress_method = "none", compress_rate = 1, target_width = 100,
-  target_height = 100, black_regulation = 0.5,
-  transparency_regulation = 0.5)
+  target_height = 100, threshold_value = 0.5,
+  transparency_regulation = 0.5, channel = "rgb")
 }
 \arguments{
 \item{list_names}{An object contains the names of the files.}
 
 \item{filetype}{Type of the file to be load. Compatible file types: ".JPGE", ".JPG" or ".PNG".}
 
-\item{compress_method}{For high resolution files, i.e. numbers of pixels in width and height, it is suggested to reduce the resolution to create a smaller matrix, it strongly reduce GPU usage and time necessary to run analyses. On the other hand, by reducing resolution, it will also reduce the accuracy of data description. Methods for image compression: (i) frame_fixed: compress images to a desired target width and height; (ii) proportional:  compress the image by a given ratio provide in the argument "proportion"; (iii) width_fixed: compress images to get a target width. The image height will also be reduced, in the same intensity. For instance, if the original file had 1000 pixel in width, and width_fixed was set to 100, the height reduction will reduce in a rate of 0.1 (100/1000) ; (iv) height_fixed: analogous to width_fixed, but assumes height as reference.}
+\item{compress_method}{For high resolution files, i.e. numbers of pixels in width and height, it is suggested to reduce the resolution to create a smaller matrix,
+it strongly reduce GPU usage and time necessary to run analyses. On the other hand, by reducing resolution, it will also reduce the accuracy of data description.
+Methods for image compression: (i) frame_fixed: compress images to a desired target width and height; (ii) proportional:  compress the image by a given ratio provide in the argument "proportion";
+(iii) width_fixed: compress images to get a target width. The image height will also be reduced, in the same intensity. For instance, if the original file had 1000 pixel in width, and
+width_fixed was set to 100, the height reduction will reduce in a rate of 0.1 (100/1000) ; (iv) height_fixed: analogous to width_fixed, but assumes height as reference.}
 
 \item{compress_rate}{Compress rate to by apply if compress_method=proportional. Note:  it should be ser as number range from 0 to 1 .}
 
@@ -22,9 +26,15 @@ threshold_image_list(list_names, filetype = "jpeg",
 
 \item{target_height}{Target height to be used if compress_method=frame_fixed or compress_method= height_fixed.}
 
-\item{black_regulation}{For each pixel, the intensity of red, green and blue is averaged and compared to a black_regulation (threshold). If the average intensity is less than the black_regulation (default is 0.5) the pixel will be set as black, otherwise it will be white.}
+\item{threshold_value}{For each pixel, the intensity of color channels (red, green and blue) are averaged and compared to a threshold_value (threshold).
+If the average intensity is less than the threshold_value (default is 0.5) the pixel will be set as black, otherwise it will be white. See channel argument.}
 
-\item{transparency_regulation}{For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold) will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.}
+\item{transparency_regulation}{For PNG images, the alpha channel is used to set transparent pixels, i.e. alpha channel values above transparency_regulation (a threshold)
+will set the pixel as transparent, default is 0.5.  NOTE: In the data matrix the value 1 represents black pixels, 0 represents white pixels and NA represents transparent pixels.}
+
+\item{channel}{RGB channel to be considered in threshold. If channel=RGB (default), the intensity of red, green and blue is averaged and compared to threshold_value.
+If the average intensity is less than the threshold_value (default is 50%) the pixel will be set as black (matrix cell value =1), otherwise it will be white (matrix cell value =0).
+If only one channel is defined ("R" for red, "G" for green, and "B" for blue), the average intensity selected channel compared direct to the threshold_value value.}
 }
 \value{
 A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
