@@ -725,3 +725,44 @@ celliptical<-function(v,u,height,width){
       y<-y*height
       x<-x*width}
   return(c(y,x))}
+
+
+#######################################################
+# Achar pontos de corte dentro de uma elipse
+achar_pontos_elipse <-function(linha,xcentral,ycentral,alturatotal,larguratotal){
+  z = -2*xcentral
+  w = -(( ( 1 - ((linha-ycentral)^2/(alturatotal/2)^2))* (larguratotal/2)^2)-xcentral^2)
+  (x1<- (-z+sqrt((z^2)-4*w))/(2))
+  (x2<- (-z-sqrt((z^2)-4*w))/(2))
+  resposta<-c(floor(x2),floor(x1))
+  return(resposta)}
+#######################################################
+# Funcao que calcula a densidade em retangulo
+densidade_retangulo<-function(imagematrix,ycentro,xcentro,amostra_altura_px,amostra_largura_px){
+  # criar figura que vai servir de rascunho para os calculos
+  altura_aux<-floor(amostra_altura_px/2);largura_aux<-floor(amostra_largura_px/2)
+  imagem_rascunho<-imagematrix[(ycentro-altura_aux):(ycentro+altura_aux),(xcentro-largura_aux):(xcentro+largura_aux)]
+  resposta<-denseness_total(imagem_rascunho)
+  return(resposta)}
+#######################################################
+#  Funcao que calcula a densidade em elipse
+densidade_elipse<-function(imagematrix,ycentro,xcentro,amostra_altura_px,amostra_largura_px){
+  # Operacao para amostrar uma amostra da imagem original
+  # Depois inserir NAs no rascunho para entao calcular a densidade
+  altura_aux<-floor(amostra_altura_px/2);largura_aux<-floor(amostra_largura_px/2)
+  # Imagem que vai ser trabalhada como rascunho
+  imagem_rascunho<-imagematrix[(ycentro-altura_aux):(ycentro+altura_aux),(xcentro-largura_aux):(xcentro+largura_aux)]
+  ## Achar os pontos de corte das linhas
+  # criar uma matrix que vai receber os dados de corte
+  matrix_corte<-matrix(NA,ncol=2,nrow=(nrow(imagem_rascunho)-1))
+  # Preencher com as informacoes de onde vao ser os cortes
+  for(i in 1: nrow(matrix_corte)){
+    matrix_corte[i,]<-achar_pontos_elipse(linha=i, xcentral=largura_aux, ycentral=altura_aux, alturatotal=amostra_altura_px, larguratotal=amostra_largura_px)
+    }
+  # Fazer as substituicoes dos valores pintados por NAs
+  for( i in 1: nrow(matrix_corte)){
+    imagem_rascunho[i,1:(matrix_corte[i,1]+1)]<-NA
+    imagem_rascunho[i,(matrix_corte[i,2]+1):ncol(imagem_rascunho) ]<-NA}
+  imagem_rascunho<-imagem_rascunho[-nrow(imagem_rascunho),-ncol(imagem_rascunho)]
+  resposta<-denseness_total(imagem_rascunho)
+  return(resposta)}

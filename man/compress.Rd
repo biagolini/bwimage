@@ -17,7 +17,7 @@ compress(imagematrix, method = "radial", background = NA)
 A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
 }
 \description{
-Compress data data from square image to circular in binary matrix
+Compress data from square image to circular in binary matrix
 }
 \examples{
 img_location <- system.file("extdata/chesstable.png",package ="bwimage")

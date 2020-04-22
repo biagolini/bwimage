@@ -3,7 +3,8 @@
 #' @importFrom stats sd
 #' @importFrom jpeg readJPEG
 #' @importFrom png readPNG
-#'
+
+
 #' @title Aggregation index calculator
 #' @description The function aggregation_index calculate the aggregation index. It works for matrix with and without transparent pixel. The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixels (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one.
 #' @param imagematrix The matrix to be analysed.
@@ -480,6 +481,7 @@ light_gap <-
     names(resposta) <- c("Left gap size", "Right gap size")
     return(resposta)
   }
+
 #' @title Height of the highest black pixel in the image
 #'
 #' @description Find the higher black pixel in the whole image.
@@ -706,5 +708,171 @@ topline <-
 
     resposta <- total_horizontal + total_vertical
     names(resposta) <- "topline"
-    return(resposta)
-  }
+    return(resposta)}
+
+#' @title Denseness in samples
+#'
+#' @description Calculate the denseness (proportion of black pixel in relation to the total number of pixels) for a given number of samples.
+#' @param imagematrix The matrix to be analysed.
+#' @param width_size Real size of image width (in mm, cm, m, etc..).
+#' @param height_size Real size of image height (in mm, cm, m, etc..).
+#' @param sample_width Width of sample area.
+#' @param sample_height Height of sample area.
+#' @param method Method for sample ("random" or "uniform").
+#' @param sample_shape The shape of sample unity ("rectangle" or "ellipse"). See plot_samples function.
+#' @param n_samples Defines the number of samples, when sample_shape="random".
+#' @param n_sample_horizontal Defines the number of samples column, when sample_shape=" uniform".
+#' @param n_sample_vertical Defines the number of samples lines, when sample_shape=" uniform".
+#' @param proportion_horizontal Range from 0 to 1. Represent the proportion of horizontal plane to be sample.  If proportion_horizontal=1 (default) all columns beacome potentially sample.
+#' @param proportion_vertical Range from 0 to 1. Represent the proportion of vertical plane to be sample.  If proportion_vertical=1 (default) all lines become potentially sample.
+#' @param aligin_horizontal Define horizontal align.  Three options are available: "center", "left" or "right".
+#' @param aligin_vertical Define vertical align.  Three options are available: "middle","bottom" or "top".
+#' @return Proportion of black pixels in samples. It do not take into account transparent pixels (when present).
+#' @author Carlos Biagolini-Jr.
+#' @seealso plot_samples
+#' @examples
+#' # Get a matrix from your image. Here  examples provided by bwimage package.
+#'
+#' bush<-system.file("extdata/bush.JPG",package ="bwimage")
+#' bush<-threshold_color(bush,  "jpeg", "proportional",compress_rate = 0.1)
+#' denseness_sample(bush, width_size=100, height_size=100, sample_width=5, sample_height=5)
+#' @export
+denseness_sample<-
+  function(imagematrix, width_size, height_size, sample_width, sample_height, method="random", sample_shape="rectangle", n_samples=10, n_sample_horizontal=10, n_sample_vertical=1, proportion_horizontal=1, proportion_vertical=1,aligin_horizontal="center",aligin_vertical="bottom"){
+  if (proportion_horizontal==1&proportion_vertical==1){ # se a pessoa quer trabalhar com a imagem toda
+    x0<-1;y0<-1;largura_amostra<-ncol(imagematrix);altura_amostra<-nrow(imagematrix)
+  }else{
+    # Se pediu para cortar faz a conta:
+    # Saber o tamanho da caixa a ser amostrada
+    largura_amostra<-floor(proportion_horizontal*length(imagematrix[1,]))
+    altura_amostra<-floor(proportion_vertical*length(imagematrix[,1]))
+    # Encontrar x0
+    if(aligin_horizontal=="center"){x0<-floor((ncol(imagematrix)-largura_amostra)/2)+1}else{
+      if(aligin_horizontal=="left"){x0<-1}else{
+        if(aligin_horizontal=="right"){x0<-ncol(imagematrix)-largura_amostra+1}else{
+          show("invalid parameter - aligin_horizontal")}}}
+    # Encontrar y0
+    if(aligin_vertical=="top"){y0<-1}else{
+      if(aligin_vertical=="middle"){y0<-floor((nrow(imagematrix)-altura_amostra)/2)+1}else{
+        if(aligin_vertical=="bottom"){y0<-nrow(imagematrix)-altura_amostra+1}else{
+          show("invalid parameter - aligin_vertical")}}}}
+  # Agora sabemos de qual pixel ate qual pixel que vamos trabalhar
+  # Agora vamos comverter o tamanho da amostra (que foi dada em numero real) para a escala de pixel
+  amostra_largura_px<-(sample_width * ncol(imagematrix))/width_size
+  amostra_altura_px <-(sample_height * nrow(imagematrix))/height_size
+  # Sabendo a area de trabalho, e o tamanho da amostra, vamos calcular o espaco interno que pode ser usado para amostragem
+  # Esse espaco interno desconta uma margem que nao da para colocar o centro do objeto amostrado la dentro
+  largura_interna<-largura_amostra-amostra_largura_px
+  altura_interna<-altura_amostra-amostra_altura_px
+  primeiro_px_interno_colunas<-ceiling(amostra_largura_px/2)+(x0-1)
+  primeiro_px_interno_linhas<-ceiling(amostra_altura_px/2) +(y0-1)
+  ultimo_px_interno_colunas<-floor(largura_amostra- (amostra_largura_px/2))+(x0-1)
+  ultimo_px_interno_linhas<-floor(altura_amostra- (amostra_altura_px/2))+(y0-1)
+
+  # Amostrar pontos
+  if(method=="random"){
+    lista_amostragem<-matrix(NA,ncol=2,nrow=n_samples)# Criar uma lista de pontos para amostrar
+    lista_amostragem[,1]<-sample(c(primeiro_px_interno_linhas:ultimo_px_interno_linhas), n_samples) # linhas aleatoriamente amostradas
+    lista_amostragem[,2]<-sample( c(primeiro_px_interno_colunas:ultimo_px_interno_colunas), n_samples) # colunas aleatoriamente amostradas
+    colnames(lista_amostragem)<-c("linha","coluna")}else{
+      if(method=="uniform"){
+        # Criar uma lista de pontos para amostrar
+        lista_amostragem<-matrix(NA,ncol=2,nrow=(n_sample_horizontal*n_sample_vertical))
+        # Pegar a area interna e dividir em um numero de secoes igual o numero de amostrar pedido +1, dessa forma encaixamos os pontos uniformemente no eixo
+        tamanho_seccoes_horizontal<-largura_interna/(n_sample_horizontal+1)
+        tamanho_seccoes_vertical<-altura_interna/(n_sample_vertical+1)
+
+        # Aqui voce encontra os pontos para amostrar dentro da sub imagem, mas veja que isso dentro de uma escala para essa sub-imagem
+        pontos_amostra_colunas<-pontos_amostra_linhas<-NULL
+        for(i in 1: n_sample_horizontal){pontos_amostra_colunas[i]<- floor(amostra_largura_px/2+tamanho_seccoes_horizontal*i)}
+        for(i in 1: n_sample_vertical){pontos_amostra_linhas[i]<- floor(amostra_altura_px/2+tamanho_seccoes_vertical*i)}
+
+        # Agora vamos voltar para a escala da figura original
+        pontos_amostra_colunas<-pontos_amostra_colunas+(x0-1)
+        pontos_amostra_linhas<-pontos_amostra_linhas+(y0-1)
+        # Preencher a tabela de pontos a serem amostrados
+        lista_amostragem[,1]<-rep(pontos_amostra_linhas,each=n_sample_horizontal)
+        lista_amostragem[,2]<-rep(pontos_amostra_colunas,n_sample_vertical)
+        colnames(lista_amostragem)<-c("linha","coluna")}}
+
+  # converter as dimensoes do objeto que sera amostrado em numero de pixel
+  amostra_largura_px<-(sample_width * ncol(imagematrix))/width_size
+  amostra_altura_px <-(sample_height * nrow(imagematrix))/height_size
+  altura_aux<-floor(amostra_altura_px/2);largura_aux<-floor(amostra_largura_px/2)
+
+  densidades_amostras<-NULL
+  if(sample_shape=="rectangle"){
+    for(i in 1: length(lista_amostragem[,1])){
+      densidades_amostras[i]<-densidade_retangulo(imagematrix,lista_amostragem[i,1],lista_amostragem[i,2],amostra_altura_px,amostra_largura_px )}}else{
+        if(sample_shape=="ellipse"){
+          for(i in 1: length(lista_amostragem[,1])){
+            densidades_amostras[i]<-densidade_elipse(imagematrix,lista_amostragem[i,1],lista_amostragem[i,2],amostra_altura_px,amostra_largura_px)}}}
+  resposta<-matrix(NA,ncol=5,nrow=length(densidades_amostras))
+  rownames(resposta)<-paste(rep("Sample",length(densidades_amostras)),1:length(densidades_amostras))
+  resposta[,1]<-densidades_amostras
+  resposta[,2]<-((nrow(imagematrix)-lista_amostragem[,1])*height_size)/nrow(imagematrix)
+  resposta[,3]<-(lista_amostragem[,2]*width_size)/ncol(imagematrix)
+  resposta[,4]<-lista_amostragem[,1]
+  resposta[,5]<-lista_amostragem[,2]
+
+  colnames(resposta)<-c("Sample_denseness","Height","Distance(left)","Matrix(line)","Matrix(column)")
+  return(resposta)}
+
+
+
+#' @title Plot samples from denseness_sample
+#'
+#' @description Plot samples from denseness_sample.
+#' @param imagematrix The matrix to be analysed.
+#' @param central_lines
+#' @param central_collumns
+#' @param width_size Real size of image width (in mm, cm, m, etc..).
+#' @param height_size Real size of image height (in mm, cm, m, etc..).
+#' @param sample_width Width of sample area.
+#' @param sample_height Height of sample area.
+#' @param sample_shape Inform the shape of sample unity used ("rectangle" or "ellipse"). See denseness_sample function.
+#' @return Proportion of black pixels in samples. It do not take into account transparent pixels (when present).
+#' @author Carlos Biagolini-Jr.
+#' @seealso denseness_sample
+#' @examples
+#' # Get a matrix from your image. Here  examples provided by bwimage package.
+#'
+#' bush<-system.file("extdata/bush.JPG",package ="bwimage")
+#' bush<-threshold_color(bush,  "jpeg", "proportional",compress_rate = 0.1)
+#' a<-denseness_sample(bush, width_size=100, height_size=100, sample_width=5, sample_height=5)
+#' plot_samples(bush, a[,4],a[,5], 100,100, 5, 5,"rectangle")
+#' @export
+plot_samples<-function(imagematrix, central_lines,central_collumns, width_size,height_size, sample_width, sample_height,sample_shape){ #  Amostrar pontos
+  lista_amostragem<-cbind(central_lines,central_collumns)
+  para_plotar<-imagematrix
+  # converter as dimensoes do objeto que sera amostrado em numero de pixel
+  amostra_largura_px<-(sample_width * ncol(imagematrix))/width_size
+  amostra_altura_px <-(sample_height * nrow(imagematrix))/height_size
+
+  # Definir tamanhos a serem pintados
+  largura_pintura<-floor(amostra_largura_px/2)
+  altura_pintura<-floor(amostra_altura_px/2)
+
+  # fazer pintura
+  if(sample_shape=="rectangle"){
+    for(i in 1: length(lista_amostragem[,1])){
+      # Funcao que pinta quadrados
+      para_plotar[ c((lista_amostragem[i,1]-altura_pintura):(lista_amostragem[i,1]+altura_pintura)),c((lista_amostragem[i,2]-largura_pintura):(lista_amostragem[i,2]+largura_pintura))] <-2 }}else{
+        if(sample_shape=="ellipse"){
+          for(i in 1: length(lista_amostragem[,1])){
+            # 1 Achar o x0 e y0 referente a lista de amostra
+            amostra_rangex0<-lista_amostragem[i,1]-altura_pintura
+            amostra_rangey0<-lista_amostragem[i,2]-largura_pintura
+
+            # 2 calcular qual range que vai ser pintado
+            # Em uma escala do tamanho da amostra
+            matrix_corte<-matrix(NA,ncol=2,nrow=(amostra_altura_px))
+            # Preencher com as informacoes de quais colunas serao pintadas para cada linha da imagem - nao estao na escala da figura original
+            for( z in 1: nrow(matrix_corte)){matrix_corte[z,]<-achar_pontos_elipse(linha=z,xcentral=largura_pintura,ycentral=altura_pintura,alturatotal=amostra_altura_px,larguratotal=amostra_largura_px)
+            }
+            # Colocar na escala da amostra quais sao os intervalos para pintar
+            escala_matrix_corte<-floor(matrix_corte+amostra_rangey0) # quais intervalos das pintadas que serao pintados
+            # Pintar dentro da imagem
+            for( w in 1: nrow(escala_matrix_corte)){
+              para_plotar[ (amostra_rangex0+w-1),  escala_matrix_corte[w,1]:escala_matrix_corte[w,2]]<-2}}}}
+  image(t(para_plotar)[,nrow(para_plotar):1], col = c("white","black","red"), xaxt = "n", yaxt = "n") }

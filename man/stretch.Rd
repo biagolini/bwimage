@@ -15,7 +15,7 @@ stretch(imagematrix, method = "radial")
 A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
 }
 \description{
-Stretch data data from circular image to square in binary matrix
+Stretch data from circular image to square in binary matrix
 }
 \examples{
 img_location <- system.file("extdata/chesstable.png",package ="bwimage")

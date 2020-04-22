@@ -16,9 +16,10 @@ threshold_color(filename, filetype = "jpeg", compress_method = "none",
 
 \item{compress_method}{For high resolution files, i.e. numbers of pixels in width and height, it is suggested to reduce the resolution to create a smaller matrix,
 it strongly reduce GPU usage and time necessary to run analyses. On the other hand, by reducing resolution, it will also reduce the accuracy of data description.
-Methods for image compression: (i) frame_fixed: compress images to a desired target width and height; (ii) proportional:  compress the image by a given ratio provide in the argument "proportion";
-(iii) width_fixed: compress images to get a target width. The image height will also be reduced, in the same intensity. For instance, if the original file had 1000 pixel in width, and
-width_fixed was set to 100, the height reduction will reduce in a rate of 0.1 (100/1000) ; (iv) height_fixed: analogous to width_fixed, but assumes height as reference.}
+The available methods for image reduction are: i) frame_fixed, which resamples images to a desired target width and height;
+ii) proportional, which resamples the image by a given ratio provided in the argument "proportion";
+iii) width_fixed, which resamples images to a target width, and also reduces the image height by the same factor. For instance, if the original file had 1000 pixels in width,
+and the new width_was set to 100, height will be reduced by a factor of 0.1 (100/1000); and iv) height_fixed, analogous to width_fixed, but assumes height as reference.}
 
 \item{compress_rate}{Compress rate to by apply if compress_method=proportional. Note:  it should be ser as number range from 0 to 1 .}
 

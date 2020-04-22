@@ -7,9 +7,10 @@
 #' @param filetype Type of the file to be load. Compatible file types: ".JPGE", ".JPG" or ".PNG".
 #' @param compress_method For high resolution files, i.e. numbers of pixels in width and height, it is suggested to reduce the resolution to create a smaller matrix,
 #' it strongly reduce GPU usage and time necessary to run analyses. On the other hand, by reducing resolution, it will also reduce the accuracy of data description.
-#' Methods for image compression: (i) frame_fixed: compress images to a desired target width and height; (ii) proportional:  compress the image by a given ratio provide in the argument "proportion";
-#' (iii) width_fixed: compress images to get a target width. The image height will also be reduced, in the same intensity. For instance, if the original file had 1000 pixel in width, and
-#' width_fixed was set to 100, the height reduction will reduce in a rate of 0.1 (100/1000) ; (iv) height_fixed: analogous to width_fixed, but assumes height as reference.
+#' The available methods for image reduction are: i) frame_fixed, which resamples images to a desired target width and height;
+#' ii) proportional, which resamples the image by a given ratio provided in the argument "proportion";
+#' iii) width_fixed, which resamples images to a target width, and also reduces the image height by the same factor. For instance, if the original file had 1000 pixels in width,
+#' and the new width_was set to 100, height will be reduced by a factor of 0.1 (100/1000); and iv) height_fixed, analogous to width_fixed, but assumes height as reference.
 #' @param compress_rate Compress rate to by apply if compress_method=proportional. Note:  it should be ser as number range from 0 to 1 .
 #' @param target_width Target width to be used if compress_method=frame_fixed or compress_method= width_fixed.
 #' @param target_height Target height to be used if compress_method=frame_fixed or compress_method= height_fixed.
@@ -129,9 +130,10 @@ threshold_color <-
 #' @param filetype Type of the file to be load. Compatible file types: ".JPGE", ".JPG" or ".PNG".
 #' @param compress_method For high resolution files, i.e. numbers of pixels in width and height, it is suggested to reduce the resolution to create a smaller matrix,
 #' it strongly reduce GPU usage and time necessary to run analyses. On the other hand, by reducing resolution, it will also reduce the accuracy of data description.
-#' Methods for image compression: (i) frame_fixed: compress images to a desired target width and height; (ii) proportional:  compress the image by a given ratio provide in the argument "proportion";
-#' (iii) width_fixed: compress images to get a target width. The image height will also be reduced, in the same intensity. For instance, if the original file had 1000 pixel in width, and
-#' width_fixed was set to 100, the height reduction will reduce in a rate of 0.1 (100/1000) ; (iv) height_fixed: analogous to width_fixed, but assumes height as reference.
+#' The available methods for image reduction are: i) frame_fixed, which resamples images to a desired target width and height;
+#' ii) proportional, which resamples the image by a given ratio provided in the argument "proportion";
+#' iii) width_fixed, which resamples images to a target width, and also reduces the image height by the same factor. For instance, if the original file had 1000 pixels in width,
+#' and the new width_was set to 100, height will be reduced by a factor of 0.1 (100/1000); and iv) height_fixed, analogous to width_fixed, but assumes height as reference.
 #' @param compress_rate Compress rate to by apply if compress_method=proportional. Note:  it should be ser as number range from 0 to 1 .
 #' @param target_width Target width to be used if compress_method=frame_fixed or compress_method= width_fixed.
 #' @param target_height Target height to be used if compress_method=frame_fixed or compress_method= height_fixed.
@@ -170,7 +172,7 @@ threshold_image_list <-
     return(resposta)}
 #' @title stretch circle to square
 #'
-#' @description Stretch data data from circular image to square in binary matrix
+#' @description Stretch data from circular image to square in binary matrix
 #' @param imagematrix The matrix to be stretched.
 #' @param method Stretch algorithm. Four algorithms (radial, shirley, squircle, and elliptical) are available to stretch the image. The algorithms were adapted from Lambers 2016.
 #' @return A matrix of 0, 1 and NA representing white, black and transparent pixels, respectively.
@@ -217,7 +219,7 @@ stretch<-function(imagematrix,method="radial"){
 
 #' @title Compress square to circle
 #'
-#' @description Compress data data from square image to circular in binary matrix
+#' @description Compress data from square image to circular in binary matrix
 #' @param imagematrix The matrix to be compressed.
 #' @param method Compress algorithm. Four algorithms (radial, shirley, squircle, and elliptical) are available to stretch the image. The algorithms were adapted from Lambers 2016.
 #' @param background Code for background cell value. When compressing a squared matrix, corners of the transformed matrix will no have corresponding pixel from original matrix. Thus, the background value will be the value of transformed matrix corners.
