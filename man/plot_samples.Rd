@@ -10,6 +10,10 @@ plot_samples(imagematrix, central_lines, central_collumns, width_size,
 \arguments{
 \item{imagematrix}{The matrix to be analysed.}
 
+\item{central_lines}{Lines data (i.e. "Matrix(line)") provided by denseness_sample}
+
+\item{central_collumns}{Collumns data (i.e. "Matrix(column)") provided by denseness_sample}
+
 \item{width_size}{Real size of image width (in mm, cm, m, etc..).}
 
 \item{height_size}{Real size of image height (in mm, cm, m, etc..).}
@@ -21,7 +25,7 @@ plot_samples(imagematrix, central_lines, central_collumns, width_size,
 \item{sample_shape}{Inform the shape of sample unity used ("rectangle" or "ellipse"). See denseness_sample function.}
 }
 \value{
-Proportion of black pixels in samples. It do not take into account transparent pixels (when present).
+Plot of the analysed matrix (black and white) and sample locations (red).
 }
 \description{
 Plot samples from denseness_sample.
@@ -31,7 +35,7 @@ Plot samples from denseness_sample.
 
 bush<-system.file("extdata/bush.JPG",package ="bwimage")
 bush<-threshold_color(bush,  "jpeg", "proportional",compress_rate = 0.1)
-a<-denseness_sample(bush, width_size=100, height_size=100, sample_width=5, sample_height=5))
+a<-denseness_sample(bush, width_size=100, height_size=100, sample_width=5, sample_height=5)
 plot_samples(bush, a[,4],a[,5], 100,100, 5, 5,"rectangle")
 }
 \seealso{

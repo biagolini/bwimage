@@ -3,7 +3,7 @@
 #' @importFrom stats sd
 #' @importFrom jpeg readJPEG
 #' @importFrom png readPNG
-
+#' @importFrom graphics image
 
 #' @title Aggregation index calculator
 #' @description The function aggregation_index calculate the aggregation index. It works for matrix with and without transparent pixel. The aggregation index is a standardized estimation of the average proportion of same-color pixels around each image pixel. First, the proportion of same-color neighboring pixels (SCNP) is calculated (marginal lines and columns are excluded). Next, the SCNP for all pixels are averaged; then, given the proportion of black and white pixels, number of pixels in height and width, and location of transparent pixels (when present), the maximum and minimum possible aggregation indexes are calculated. Finally, the observed aggregation is standardized to a scale where the minimum possible value is set at zero and the maximum value is set at one.
@@ -727,7 +727,12 @@ topline <-
 #' @param proportion_vertical Range from 0 to 1. Represent the proportion of vertical plane to be sample.  If proportion_vertical=1 (default) all lines become potentially sample.
 #' @param aligin_horizontal Define horizontal align.  Three options are available: "center", "left" or "right".
 #' @param aligin_vertical Define vertical align.  Three options are available: "middle","bottom" or "top".
-#' @return Proportion of black pixels in samples. It do not take into account transparent pixels (when present).
+#' @return
+#' \item{Sample_denseness}{Proportion of black pixels in samples. It do not take into account transparent pixels (when present)..}
+#' \item{Height}{Height of each sample (in mm, cm, m, etc. ..). Central point used as reference.}
+#' \item{Distance(left)}{Distance ti the left side of each sample (in mm, cm, m, etc. ..). Central point used as reference.}
+#' \item{Matrix(line)}{Imagem matrix  line coordinates.}
+#' \item{Matrix(column)}{Imagem matrix column coordinates.}
 #' @author Carlos Biagolini-Jr.
 #' @seealso plot_samples
 #' @examples
@@ -749,13 +754,11 @@ denseness_sample<-
     # Encontrar x0
     if(aligin_horizontal=="center"){x0<-floor((ncol(imagematrix)-largura_amostra)/2)+1}else{
       if(aligin_horizontal=="left"){x0<-1}else{
-        if(aligin_horizontal=="right"){x0<-ncol(imagematrix)-largura_amostra+1}else{
-          show("invalid parameter - aligin_horizontal")}}}
+        if(aligin_horizontal=="right"){x0<-ncol(imagematrix)-largura_amostra+1}}}
     # Encontrar y0
     if(aligin_vertical=="top"){y0<-1}else{
       if(aligin_vertical=="middle"){y0<-floor((nrow(imagematrix)-altura_amostra)/2)+1}else{
-        if(aligin_vertical=="bottom"){y0<-nrow(imagematrix)-altura_amostra+1}else{
-          show("invalid parameter - aligin_vertical")}}}}
+        if(aligin_vertical=="bottom"){y0<-nrow(imagematrix)-altura_amostra+1}}}}
   # Agora sabemos de qual pixel ate qual pixel que vamos trabalhar
   # Agora vamos comverter o tamanho da amostra (que foi dada em numero real) para a escala de pixel
   amostra_largura_px<-(sample_width * ncol(imagematrix))/width_size
@@ -824,14 +827,14 @@ denseness_sample<-
 #'
 #' @description Plot samples from denseness_sample.
 #' @param imagematrix The matrix to be analysed.
-#' @param central_lines
-#' @param central_collumns
+#' @param central_lines Lines data (i.e. "Matrix(line)") provided by denseness_sample
+#' @param central_collumns Collumns data (i.e. "Matrix(column)") provided by denseness_sample
 #' @param width_size Real size of image width (in mm, cm, m, etc..).
 #' @param height_size Real size of image height (in mm, cm, m, etc..).
 #' @param sample_width Width of sample area.
 #' @param sample_height Height of sample area.
 #' @param sample_shape Inform the shape of sample unity used ("rectangle" or "ellipse"). See denseness_sample function.
-#' @return Proportion of black pixels in samples. It do not take into account transparent pixels (when present).
+#' @return Plot of the analysed matrix (black and white) and sample locations (red).
 #' @author Carlos Biagolini-Jr.
 #' @seealso denseness_sample
 #' @examples

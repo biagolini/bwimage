@@ -40,7 +40,11 @@ denseness_sample(imagematrix, width_size, height_size, sample_width,
 \item{aligin_vertical}{Define vertical align.  Three options are available: "middle","bottom" or "top".}
 }
 \value{
-Proportion of black pixels in samples. It do not take into account transparent pixels (when present).
+\item{Sample_denseness}{Proportion of black pixels in samples. It do not take into account transparent pixels (when present)..}
+\item{Height}{Height of each sample (in mm, cm, m, etc. ..). Central point used as reference.}
+\item{Distance(left)}{Distance ti the left side of each sample (in mm, cm, m, etc. ..). Central point used as reference.}
+\item{Matrix(line)}{Imagem matrix  line coordinates.}
+\item{Matrix(column)}{Imagem matrix column coordinates.}
 }
 \description{
 Calculate the denseness (proportion of black pixel in relation to the total number of pixels) for a given number of samples.
